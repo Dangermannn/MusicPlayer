@@ -215,12 +215,8 @@ namespace MusicPlayer
                     //string[] v = Directory.GetFiles(fbd.SelectedPath, "*.mp3|*.wav");
                     //string[] files = v;
                     //openedMusic.DataSource = files;
-                    List<string> tempListWithMusic = new List<string>();
-                    foreach(string file in files)
-                    {
-                        tempListWithMusic.Add(file);
-                    }
-                    openedMusic.DataSource = tempListWithMusic;
+
+                    openedMusic.DataSource = files.ToList();
                     OpenChildForm(new Forms.FormOpenedFiles(this.openedMusic), sender);
                 }
             }
