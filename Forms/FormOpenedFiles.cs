@@ -15,7 +15,6 @@ namespace MusicPlayer.Forms
         public FormOpenedFiles(CheckedListBox openedMusic)
         {
             InitializeComponent();
-            //listBoxWithOpenedMusic.DataSource = openedMusic.DataSource;
             checkedListBoxWithMusicOpened.DataSource = openedMusic.DataSource;
             
         }

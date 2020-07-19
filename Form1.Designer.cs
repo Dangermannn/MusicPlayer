@@ -114,6 +114,7 @@
             // 
             // btnPlayNextOne
             // 
+            this.btnPlayNextOne.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnPlayNextOne.FlatAppearance.BorderSize = 0;
             this.btnPlayNextOne.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPlayNextOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -128,6 +129,7 @@
             // 
             // playLastPlayed
             // 
+            this.playLastPlayed.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.playLastPlayed.FlatAppearance.BorderSize = 0;
             this.playLastPlayed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.playLastPlayed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -142,6 +144,7 @@
             // 
             // btnPlay
             // 
+            this.btnPlay.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnPlay.FlatAppearance.BorderSize = 0;
             this.btnPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -156,6 +159,7 @@
             // 
             // trackMusicTimer
             // 
+            this.trackMusicTimer.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.trackMusicTimer.Cursor = System.Windows.Forms.Cursors.PanNorth;
             this.trackMusicTimer.Location = new System.Drawing.Point(168, 27);
             this.trackMusicTimer.Maximum = 100;
@@ -307,6 +311,7 @@
             this.btnOpenFolder.TabIndex = 1;
             this.btnOpenFolder.Text = "Open folder";
             this.btnOpenFolder.UseVisualStyleBackColor = true;
+            this.btnOpenFolder.Click += new System.EventHandler(this.btnOpenFolder_Click);
             // 
             // btnOpenFiles
             // 

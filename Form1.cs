@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -113,12 +114,6 @@ namespace MusicPlayer
             childForm.Show();
         }
 
-        private void btnMedia_Click(object sender, EventArgs e)
-        {
-            ActivateButton(sender);
-            showSubMenu(panelMediaSubMenu);
-        }
-
         private void btnPlaylists_Click(object sender, EventArgs e)
         {
             ActivateButton(sender);
@@ -153,7 +148,26 @@ namespace MusicPlayer
         {
 
         }
-
+        private void DisposeWave()
+        {
+            if (output != null)
+            {
+                if (output.PlaybackState == NAudio.Wave.PlaybackState.Playing) output.Stop();
+                output.Dispose();
+                output = null;
+            }
+            if (stream != null)
+            {
+                stream.Dispose();
+                stream = null;
+            }
+        }
+        #region Media
+        private void btnMedia_Click(object sender, EventArgs e)
+        {
+            ActivateButton(sender);
+            showSubMenu(panelMediaSubMenu);
+        }
         private void btnOpenFiles_Click(object sender, EventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog();
@@ -176,7 +190,7 @@ namespace MusicPlayer
             }
             openedMusic.DataSource = fileList;
             OpenChildForm(new Forms.FormOpenedFiles(this.openedMusic), sender);
-            
+            /*
             DisposeWave();
             NAudio.Wave.WaveStream pcm = NAudio.Wave.WaveFormatConversionStream.CreatePcmStream
                                                     (new NAudio.Wave.Mp3FileReader(open.FileName));
@@ -184,21 +198,31 @@ namespace MusicPlayer
             output = new NAudio.Wave.DirectSoundOut();
             output.Init(stream);
             output.Play();
-            
+            */
         }
 
-        private void DisposeWave()
+        #endregion
+
+        private void btnOpenFolder_Click(object sender, EventArgs e)
         {
-            if(output != null)
+            using(var fbd = new FolderBrowserDialog())
             {
-                if (output.PlaybackState == NAudio.Wave.PlaybackState.Playing) output.Stop();
-                output.Dispose();
-                output = null;
-            }
-            if(stream != null)
-            {
-                stream.Dispose();
-                stream = null;
+                DialogResult result = fbd.ShowDialog();
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    var files = Directory.EnumerateFiles(fbd.SelectedPath, "*.*", SearchOption.AllDirectories)
+                        .Where(s => s.EndsWith(".mp3") || s.EndsWith(".wav"));
+                    //string[] v = Directory.GetFiles(fbd.SelectedPath, "*.mp3|*.wav");
+                    //string[] files = v;
+                    //openedMusic.DataSource = files;
+                    List<string> tempListWithMusic = new List<string>();
+                    foreach(string file in files)
+                    {
+                        tempListWithMusic.Add(file);
+                    }
+                    openedMusic.DataSource = tempListWithMusic;
+                    OpenChildForm(new Forms.FormOpenedFiles(this.openedMusic), sender);
+                }
             }
         }
     }
