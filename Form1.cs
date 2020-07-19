@@ -16,7 +16,13 @@ namespace MusicPlayer
         public static Color SecondaryColor { get; set; }
         private Button currentButton;
         private Random random;
+        private Form activeForm;
         private int tempIndex;
+
+        private NAudio.Wave.BlockAlignReductionStream stream = null;
+        private NAudio.Wave.DirectSoundOut output = null;
+
+        private readonly ListBox openedMusic = new ListBox();
         public Form1()
         {
             InitializeComponent();
@@ -92,6 +98,20 @@ namespace MusicPlayer
             }
         }
 
+        private void OpenChildForm(Form childForm, object btnSender)
+        {
+            activeForm?.Close();
+            ActivateButton(btnSender);
+            activeForm = childForm;
+            childForm.TopLevel = false;
+            childForm.FormBorderStyle = FormBorderStyle.None;
+            childForm.Dock = DockStyle.Fill;
+            this.panelMainDesktop.Controls.Add(childForm);
+            this.panelMainDesktop.Tag = childForm;
+            childForm.BringToFront();
+            childForm.Show();
+        }
+
         private void btnMedia_Click(object sender, EventArgs e)
         {
             ActivateButton(sender);
@@ -107,6 +127,78 @@ namespace MusicPlayer
         private void btnAbout_Click(object sender, EventArgs e)
         {
             ActivateButton(sender);
+        }
+
+        private void btnOpenedMusic_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new Forms.FormOpenedFiles(this.openedMusic), sender);
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
+            if (output != null)
+            {
+                if (output.PlaybackState == NAudio.Wave.PlaybackState.Playing) output.Pause();
+                else if (output.PlaybackState == NAudio.Wave.PlaybackState.Paused) output.Play();
+            }
+        }
+
+        private void btnPlayNextOne_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void playPreviousInQueue_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnOpenFiles_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.Multiselect = true;
+            open.Title = "Please select files to open *.mp3/*.wav";
+            open.Filter = "Audio File (*.mp3;*.wav)|*.mp3;*.wav;";
+            List<System.IO.FileInfo> fileList = new List<System.IO.FileInfo>();
+            if (open.ShowDialog() != DialogResult.OK) return;
+            
+            foreach(String file in open.FileNames)
+            {
+                try
+                {
+                    fileList.Add(new System.IO.FileInfo(file));
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Error: Could not read file from disc. Error message: " + ex.Message);
+                }
+            }
+            openedMusic.DataSource = fileList;
+            OpenChildForm(new Forms.FormOpenedFiles(this.openedMusic), sender);
+            
+            DisposeWave();
+            NAudio.Wave.WaveStream pcm = NAudio.Wave.WaveFormatConversionStream.CreatePcmStream
+                                                    (new NAudio.Wave.Mp3FileReader(open.FileName));
+            stream = new NAudio.Wave.BlockAlignReductionStream(pcm);
+            output = new NAudio.Wave.DirectSoundOut();
+            output.Init(stream);
+            output.Play();
+            
+        }
+
+        private void DisposeWave()
+        {
+            if(output != null)
+            {
+                if (output.PlaybackState == NAudio.Wave.PlaybackState.Playing) output.Stop();
+                output.Dispose();
+                output = null;
+            }
+            if(stream != null)
+            {
+                stream.Dispose();
+                stream = null;
+            }
         }
     }
 }

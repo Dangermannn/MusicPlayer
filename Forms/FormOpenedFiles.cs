@@ -12,9 +12,11 @@ namespace MusicPlayer.Forms
 {
     public partial class FormOpenedFiles : Form
     {
-        public FormOpenedFiles()
+        public FormOpenedFiles(ListBox openedMusic)
         {
             InitializeComponent();
+            listBoxWithOpenedMusic.DataSource = openedMusic.DataSource;
+            
         }
     }
 }

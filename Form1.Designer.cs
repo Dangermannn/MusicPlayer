@@ -32,8 +32,13 @@
             this.panelCard = new System.Windows.Forms.Panel();
             this.lblTitle = new System.Windows.Forms.Label();
             this.panelCurrentPlaying = new System.Windows.Forms.Panel();
+            this.btnPlayNextOne = new System.Windows.Forms.Button();
+            this.playLastPlayed = new System.Windows.Forms.Button();
+            this.btnPlay = new System.Windows.Forms.Button();
+            this.trackMusicTimer = new System.Windows.Forms.TrackBar();
             this.btnFavouritePlaylists = new System.Windows.Forms.Button();
             this.panelLogo = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panelPlaylistsSubMenu = new System.Windows.Forms.Panel();
             this.btnShowAllPlaylists = new System.Windows.Forms.Button();
@@ -46,14 +51,15 @@
             this.btnMedia = new System.Windows.Forms.Button();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelMainDesktop = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelCard.SuspendLayout();
+            this.panelCurrentPlaying.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackMusicTimer)).BeginInit();
             this.panelLogo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panelPlaylistsSubMenu.SuspendLayout();
             this.panelMediaSubMenu.SuspendLayout();
             this.panelMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAbout
@@ -96,11 +102,68 @@
             // panelCurrentPlaying
             // 
             this.panelCurrentPlaying.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(21)))), ((int)(((byte)(32)))));
+            this.panelCurrentPlaying.Controls.Add(this.btnPlayNextOne);
+            this.panelCurrentPlaying.Controls.Add(this.playLastPlayed);
+            this.panelCurrentPlaying.Controls.Add(this.btnPlay);
+            this.panelCurrentPlaying.Controls.Add(this.trackMusicTimer);
             this.panelCurrentPlaying.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelCurrentPlaying.Location = new System.Drawing.Point(200, 394);
             this.panelCurrentPlaying.Name = "panelCurrentPlaying";
             this.panelCurrentPlaying.Size = new System.Drawing.Size(628, 96);
             this.panelCurrentPlaying.TabIndex = 2;
+            // 
+            // btnPlayNextOne
+            // 
+            this.btnPlayNextOne.FlatAppearance.BorderSize = 0;
+            this.btnPlayNextOne.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPlayNextOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPlayNextOne.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnPlayNextOne.Location = new System.Drawing.Point(391, 61);
+            this.btnPlayNextOne.Name = "btnPlayNextOne";
+            this.btnPlayNextOne.Size = new System.Drawing.Size(75, 23);
+            this.btnPlayNextOne.TabIndex = 3;
+            this.btnPlayNextOne.Text = ">";
+            this.btnPlayNextOne.UseVisualStyleBackColor = true;
+            this.btnPlayNextOne.Click += new System.EventHandler(this.btnPlayNextOne_Click);
+            // 
+            // playLastPlayed
+            // 
+            this.playLastPlayed.FlatAppearance.BorderSize = 0;
+            this.playLastPlayed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.playLastPlayed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.playLastPlayed.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.playLastPlayed.Location = new System.Drawing.Point(178, 61);
+            this.playLastPlayed.Name = "playLastPlayed";
+            this.playLastPlayed.Size = new System.Drawing.Size(75, 23);
+            this.playLastPlayed.TabIndex = 2;
+            this.playLastPlayed.Text = "<";
+            this.playLastPlayed.UseVisualStyleBackColor = true;
+            this.playLastPlayed.Click += new System.EventHandler(this.playPreviousInQueue_Click);
+            // 
+            // btnPlay
+            // 
+            this.btnPlay.FlatAppearance.BorderSize = 0;
+            this.btnPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPlay.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnPlay.Location = new System.Drawing.Point(288, 61);
+            this.btnPlay.Name = "btnPlay";
+            this.btnPlay.Size = new System.Drawing.Size(75, 23);
+            this.btnPlay.TabIndex = 1;
+            this.btnPlay.Text = "|>";
+            this.btnPlay.UseVisualStyleBackColor = true;
+            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
+            // 
+            // trackMusicTimer
+            // 
+            this.trackMusicTimer.Cursor = System.Windows.Forms.Cursors.PanNorth;
+            this.trackMusicTimer.Location = new System.Drawing.Point(168, 27);
+            this.trackMusicTimer.Maximum = 100;
+            this.trackMusicTimer.Name = "trackMusicTimer";
+            this.trackMusicTimer.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.trackMusicTimer.Size = new System.Drawing.Size(307, 45);
+            this.trackMusicTimer.TabIndex = 0;
+            this.trackMusicTimer.TickStyle = System.Windows.Forms.TickStyle.None;
             // 
             // btnFavouritePlaylists
             // 
@@ -126,6 +189,16 @@
             this.panelLogo.Name = "panelLogo";
             this.panelLogo.Size = new System.Drawing.Size(200, 50);
             this.panelLogo.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::MusicPlayer.Properties.Resources.cat_no_bg;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 13);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(41, 37);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // panel1
             // 
@@ -219,6 +292,7 @@
             this.btnOpenedMusic.TabIndex = 2;
             this.btnOpenedMusic.Text = "Opened music";
             this.btnOpenedMusic.UseVisualStyleBackColor = true;
+            this.btnOpenedMusic.Click += new System.EventHandler(this.btnOpenedMusic_Click);
             // 
             // btnOpenFolder
             // 
@@ -247,6 +321,7 @@
             this.btnOpenFiles.TabIndex = 0;
             this.btnOpenFiles.Text = "Open files";
             this.btnOpenFiles.UseVisualStyleBackColor = true;
+            this.btnOpenFiles.Click += new System.EventHandler(this.btnOpenFiles_Click);
             // 
             // btnMedia
             // 
@@ -283,16 +358,6 @@
             this.panelMainDesktop.Size = new System.Drawing.Size(628, 344);
             this.panelMainDesktop.TabIndex = 3;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::MusicPlayer.Properties.Resources.cat_no_bg;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 13);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(41, 37);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -306,12 +371,15 @@
             this.Text = "Form1";
             this.panelCard.ResumeLayout(false);
             this.panelCard.PerformLayout();
+            this.panelCurrentPlaying.ResumeLayout(false);
+            this.panelCurrentPlaying.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackMusicTimer)).EndInit();
             this.panelLogo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panelPlaylistsSubMenu.ResumeLayout(false);
             this.panelMediaSubMenu.ResumeLayout(false);
             this.panelMenu.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -336,6 +404,10 @@
         private System.Windows.Forms.Panel panelMenu;
         private System.Windows.Forms.Panel panelMainDesktop;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TrackBar trackMusicTimer;
+        private System.Windows.Forms.Button btnPlayNextOne;
+        private System.Windows.Forms.Button playLastPlayed;
+        private System.Windows.Forms.Button btnPlay;
     }
 }
 
