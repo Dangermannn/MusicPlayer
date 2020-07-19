@@ -29,27 +29,27 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.listBoxWithOpenedMusic = new System.Windows.Forms.ListBox();
+            this.checkedListBoxWithMusicOpened = new System.Windows.Forms.CheckedListBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.listBoxWithOpenedMusic);
+            this.panel1.Controls.Add(this.checkedListBoxWithMusicOpened);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 456);
             this.panel1.TabIndex = 0;
             // 
-            // listBoxWithOpenedMusic
+            // checkedListBoxWithMusicOpened
             // 
-            this.listBoxWithOpenedMusic.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBoxWithOpenedMusic.FormattingEnabled = true;
-            this.listBoxWithOpenedMusic.Location = new System.Drawing.Point(0, 0);
-            this.listBoxWithOpenedMusic.Name = "listBoxWithOpenedMusic";
-            this.listBoxWithOpenedMusic.Size = new System.Drawing.Size(800, 456);
-            this.listBoxWithOpenedMusic.TabIndex = 0;
+            this.checkedListBoxWithMusicOpened.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListBoxWithMusicOpened.FormattingEnabled = true;
+            this.checkedListBoxWithMusicOpened.Location = new System.Drawing.Point(0, 0);
+            this.checkedListBoxWithMusicOpened.Name = "checkedListBoxWithMusicOpened";
+            this.checkedListBoxWithMusicOpened.Size = new System.Drawing.Size(800, 456);
+            this.checkedListBoxWithMusicOpened.TabIndex = 0;
             // 
             // FormOpenedFiles
             // 
@@ -67,6 +67,6 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ListBox listBoxWithOpenedMusic;
+        private System.Windows.Forms.CheckedListBox checkedListBoxWithMusicOpened;
     }
 }

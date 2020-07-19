@@ -14,6 +14,7 @@ namespace MusicPlayer
     {
         public static Color PrimaryColor { get; set; }
         public static Color SecondaryColor { get; set; }
+
         private Button currentButton;
         private Random random;
         private Form activeForm;
@@ -21,13 +22,13 @@ namespace MusicPlayer
 
         private NAudio.Wave.BlockAlignReductionStream stream = null;
         private NAudio.Wave.DirectSoundOut output = null;
-
-        private readonly ListBox openedMusic = new ListBox();
+        private CheckedListBox openedMusic = new CheckedListBox();
+       // private readonly ListBox openedMusic = new ListBox();
         public Form1()
         {
             InitializeComponent();
             hideSubMenuAtStart();
-            random = new Random();
+            random = new Random();          
         }
         private void hideSubMenuAtStart()
         {
