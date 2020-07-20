@@ -26,8 +26,8 @@ namespace MusicPlayer
         private NAudio.Wave.BlockAlignReductionStream stream = null;
         private NAudio.Wave.DirectSoundOut output = null;
 
-        private string currentPlayingFilePath = string.Empty;
-        private int currentPlayingIndex = 0;
+        private string _currentPlayingFilePath = string.Empty;
+        private int _currentPlayingIndex = 0;
         
         private readonly List<MusicFile> musicFiles = new List<MusicFile>();
 
