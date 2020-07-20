@@ -32,6 +32,7 @@
             this.panelCard = new System.Windows.Forms.Panel();
             this.lblTitle = new System.Windows.Forms.Label();
             this.panelCurrentPlaying = new System.Windows.Forms.Panel();
+            this.btnPause = new System.Windows.Forms.Button();
             this.btnPlayNextOne = new System.Windows.Forms.Button();
             this.playLastPlayed = new System.Windows.Forms.Button();
             this.btnPlay = new System.Windows.Forms.Button();
@@ -51,6 +52,7 @@
             this.btnMedia = new System.Windows.Forms.Button();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelMainDesktop = new System.Windows.Forms.Panel();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.panelCard.SuspendLayout();
             this.panelCurrentPlaying.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMusicTimer)).BeginInit();
@@ -60,6 +62,7 @@
             this.panelPlaylistsSubMenu.SuspendLayout();
             this.panelMediaSubMenu.SuspendLayout();
             this.panelMenu.SuspendLayout();
+            this.panelMainDesktop.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAbout
@@ -102,6 +105,7 @@
             // panelCurrentPlaying
             // 
             this.panelCurrentPlaying.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(21)))), ((int)(((byte)(32)))));
+            this.panelCurrentPlaying.Controls.Add(this.btnPause);
             this.panelCurrentPlaying.Controls.Add(this.btnPlayNextOne);
             this.panelCurrentPlaying.Controls.Add(this.playLastPlayed);
             this.panelCurrentPlaying.Controls.Add(this.btnPlay);
@@ -111,6 +115,22 @@
             this.panelCurrentPlaying.Name = "panelCurrentPlaying";
             this.panelCurrentPlaying.Size = new System.Drawing.Size(628, 96);
             this.panelCurrentPlaying.TabIndex = 2;
+            // 
+            // btnPause
+            // 
+            this.btnPause.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnPause.FlatAppearance.BorderSize = 0;
+            this.btnPause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPause.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPause.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnPause.Location = new System.Drawing.Point(288, 61);
+            this.btnPause.Name = "btnPause";
+            this.btnPause.Size = new System.Drawing.Size(75, 23);
+            this.btnPause.TabIndex = 4;
+            this.btnPause.Text = "||";
+            this.btnPause.UseVisualStyleBackColor = true;
+            this.btnPause.Visible = false;
+            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
             // btnPlayNextOne
             // 
@@ -357,11 +377,20 @@
             // 
             // panelMainDesktop
             // 
+            this.panelMainDesktop.Controls.Add(this.checkedListBox1);
             this.panelMainDesktop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMainDesktop.Location = new System.Drawing.Point(200, 50);
             this.panelMainDesktop.Name = "panelMainDesktop";
             this.panelMainDesktop.Size = new System.Drawing.Size(628, 344);
             this.panelMainDesktop.TabIndex = 3;
+            // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Location = new System.Drawing.Point(132, 130);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(120, 94);
+            this.checkedListBox1.TabIndex = 0;
             // 
             // Form1
             // 
@@ -385,6 +414,7 @@
             this.panelPlaylistsSubMenu.ResumeLayout(false);
             this.panelMediaSubMenu.ResumeLayout(false);
             this.panelMenu.ResumeLayout(false);
+            this.panelMainDesktop.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -413,6 +443,8 @@
         private System.Windows.Forms.Button btnPlayNextOne;
         private System.Windows.Forms.Button playLastPlayed;
         private System.Windows.Forms.Button btnPlay;
+        private System.Windows.Forms.Button btnPause;
+        private System.Windows.Forms.CheckedListBox checkedListBox1;
     }
 }
 

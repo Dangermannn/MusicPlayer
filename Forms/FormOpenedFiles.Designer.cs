@@ -50,6 +50,7 @@
             this.checkedListBoxWithMusicOpened.Name = "checkedListBoxWithMusicOpened";
             this.checkedListBoxWithMusicOpened.Size = new System.Drawing.Size(800, 456);
             this.checkedListBoxWithMusicOpened.TabIndex = 0;
+            this.checkedListBoxWithMusicOpened.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkedListBoxWithMusicOpened_MouseClick);
             // 
             // FormOpenedFiles
             // 
@@ -59,6 +60,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "FormOpenedFiles";
             this.Text = "FormOpenedFiles";
+            this.Load += new System.EventHandler(this.FormOpenedFiles_Load);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
