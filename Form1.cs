@@ -18,10 +18,10 @@ namespace MusicPlayer
         public static Color PrimaryColor { get; set; }
         public static Color SecondaryColor { get; set; }
 
-        private Button currentButton;
-        private Random random;
-        private Form activeForm;
-        private int tempIndex;
+        private Button _currentButton;
+        private Random _random;
+        private Form _activeForm;
+        private int _tempIndex;
 
         private NAudio.Wave.BlockAlignReductionStream stream = null;
         private NAudio.Wave.DirectSoundOut output = null;
@@ -36,7 +36,7 @@ namespace MusicPlayer
         {
             InitializeComponent();
             HideSubMenuAtStart();
-            random = new Random();
+            _random = new Random();
         }
         private void HideSubMenuAtStart()
         {
@@ -65,10 +65,10 @@ namespace MusicPlayer
 
         private Color SelectThemeColor()
         {
-            int index = random.Next(ThemeColor.ColorList.Count);
-            while (tempIndex == index)
-                index = random.Next(ThemeColor.ColorList.Count);
-            tempIndex = index;
+            int index = _random.Next(ThemeColor.ColorList.Count);
+            while (_tempIndex == index)
+                index = _random.Next(ThemeColor.ColorList.Count);
+            _tempIndex = index;
             string color = ThemeColor.ColorList[index];
             return ColorTranslator.FromHtml(color);
         }
@@ -77,14 +77,14 @@ namespace MusicPlayer
         {
             if(btnSender != null)
             {
-                if(currentButton != (Button)btnSender)
+                if(_currentButton != (Button)btnSender)
                 {
                     DisableButtons();
                     Color color = SelectThemeColor();
-                    currentButton = (Button)btnSender;
-                    currentButton.BackColor = color;
-                    currentButton.ForeColor = Color.White;
-                    currentButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                    _currentButton = (Button)btnSender;
+                    _currentButton.BackColor = color;
+                    _currentButton.ForeColor = Color.White;
+                    _currentButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                     panelCard.BackColor = color;
                     panelLogo.BackColor = ThemeColor.ChangeColorBrightness(color, -0.3);
                     ThemeColor.PrimaryColor = color;
@@ -108,9 +108,9 @@ namespace MusicPlayer
 
         private void OpenChildForm(Form childForm, object btnSender)
         {
-            activeForm?.Close();
+            _activeForm?.Close();
             ActivateButton(btnSender);
-            activeForm = childForm;
+            _activeForm = childForm;
             childForm.TopLevel = false;
             childForm.FormBorderStyle = FormBorderStyle.None;
             childForm.Dock = DockStyle.Fill;
