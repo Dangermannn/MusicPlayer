@@ -29,24 +29,22 @@ namespace MusicPlayer
         private string currentPlayingFilePath = string.Empty;
         private int currentPlayingIndex = 0;
         
-        List<MusicFile> musicFiles = new List<MusicFile>();
+        private readonly List<MusicFile> musicFiles = new List<MusicFile>();
 
-        List<System.IO.FileInfo> openedFilesList = new List<System.IO.FileInfo>();
-        public CheckedListBox openedMusic = new CheckedListBox();
        // private readonly ListBox openedMusic = new ListBox();
         public Form1()
         {
             InitializeComponent();
-            hideSubMenuAtStart();
+            HideSubMenuAtStart();
             random = new Random();
         }
-        private void hideSubMenuAtStart()
+        private void HideSubMenuAtStart()
         {
             panelPlaylistsSubMenu.Visible = false;
             panelMediaSubMenu.Visible = false;
         }
 
-        private void hideSubMenu()
+        private void HideSubMenu()
         {
             if (panelMediaSubMenu.Visible)
                 panelMediaSubMenu.Visible = false;
@@ -54,11 +52,11 @@ namespace MusicPlayer
                 panelPlaylistsSubMenu.Visible = false;
         }
 
-        private void showSubMenu(Panel subMenu)
+        private void ShowSubMenu(Panel subMenu)
         {
             if (!subMenu.Visible)
             {
-                hideSubMenu();
+                HideSubMenu();
                 subMenu.Visible = true;
             }
             else
@@ -122,18 +120,18 @@ namespace MusicPlayer
             childForm.Show();
         }
 
-        private void btnPlaylists_Click(object sender, EventArgs e)
+        private void BtnPlaylists_Click(object sender, EventArgs e)
         {
             ActivateButton(sender);
-            showSubMenu(panelPlaylistsSubMenu);
+            ShowSubMenu(panelPlaylistsSubMenu);
         }
 
-        private void btnAbout_Click(object sender, EventArgs e)
+        private void BtnAbout_Click(object sender, EventArgs e)
         {
             ActivateButton(sender);
         }
 
-        private void btnOpenedMusic_Click(object sender, EventArgs e)
+        private void BtnOpenedMusic_Click(object sender, EventArgs e)
         {
             //OpenChildForm(new Forms.FormOpenedFiles(this.openedMusic), sender);
             
@@ -142,7 +140,7 @@ namespace MusicPlayer
             //OpenChildForm(new Forms.FormOpenedFiles(this.openedFilesList), sender);
         }
 
-        private void btnPlay_Click(object sender, EventArgs e)
+        private void BtnPlay_Click(object sender, EventArgs e)
         {
             /*
             if (output != null)
@@ -158,31 +156,28 @@ namespace MusicPlayer
             FormOpenedFiles openedFilesForm = new Forms.FormOpenedFiles(this.musicFiles);
             //OpenChildForm(openedFilesForm, sender);
             //OpenChildForm(new Forms.FormOpenedFiles(this.openedMusic), sender);
-            for (int i = 0; i < openedMusic.Items.Count; i++)
-            {
-                openedMusic.SetItemChecked(i, true);
-                MessageBox.Show("CHANGED TO CHECKED");
-            }
-            MessageBox.Show("COUNT: " + openedMusic.Items.Count);
+
             openedFilesForm.Play();
             btnPlay.Visible = false;
             btnPause.Visible = true;
         }
 
-        private void btnPlayNextOne_Click(object sender, EventArgs e)
+        private void BtnPlayNextOne_Click(object sender, EventArgs e)
         {
 
             //btnPause.Visible = true;
         }
 
-        private void btnPause_Click(object sender, EventArgs e)
+        private void BtnPause_Click(object sender, EventArgs e)
         {
             btnPause.Visible = false;
             btnPlay.Visible = true;
         }
 
-        private void playPreviousInQueue_Click(object sender, EventArgs e)
+        private void PlayPreviousInQueue_Click(object sender, EventArgs e)
         {
+            /*
+             
             foreach(string fileName in openedMusic.Items)
             {
                 NAudio.Wave.WaveStream pcm = NAudio.Wave.WaveFormatConversionStream.CreatePcmStream
@@ -192,6 +187,7 @@ namespace MusicPlayer
                 output.Init(stream);
                 output.Play();
             }
+             */
             /*
             DisposeWave();
             NAudio.Wave.WaveStream pcm = NAudio.Wave.WaveFormatConversionStream.CreatePcmStream
@@ -218,54 +214,37 @@ namespace MusicPlayer
             }
         }
         #region Media
-        private void btnMedia_Click(object sender, EventArgs e)
+        private void BtnMedia_Click(object sender, EventArgs e)
         {
             ActivateButton(sender);
-            showSubMenu(panelMediaSubMenu);
+            ShowSubMenu(panelMediaSubMenu);
         }
-        private void btnOpenFiles_Click(object sender, EventArgs e)
+        private void BtnOpenFiles_Click(object sender, EventArgs e)
         {
-            OpenFileDialog open = new OpenFileDialog();
-            open.Multiselect = true;
-            open.Title = "Please select files to open *.mp3/*.wav";
-            open.Filter = "Audio File (*.mp3;*.wav)|*.mp3;*.wav;";
-            List<System.IO.FileInfo> fileList = new List<System.IO.FileInfo>();
-            if (open.ShowDialog() != DialogResult.OK) return;
-            
+            OpenFileDialog open = new OpenFileDialog
+            {
+                Multiselect = true,
+                Title = "Please select files to open *.mp3/*.wav",
+                Filter = "Audio File (*.mp3;*.wav)|*.mp3;*.wav;"
+            };
+            if (open.ShowDialog() != DialogResult.OK) return;  
             foreach(String file in open.FileNames)
             {
                 try
                 {
-                    //fileList.Add(new System.IO.FileInfo(file));
-                    openedFilesList.Add(new System.IO.FileInfo(file));
                     musicFiles.Add(new MusicFile(new System.IO.FileInfo(file)));
-                    //openedMusic.Items.Add("test", CheckState.Checked);
                 }
                 catch(Exception ex)
                 {
                     MessageBox.Show("Error: Could not read file from disc. Error message: " + ex.Message);
                 }
             }
-            openedMusic.DataSource = fileList;
-            /*
-            for (int count = 0; count < openedMusic.Items.Count; count++)
-            {
-                if (openedMusic.Contains(openedMusic.Items[count].ToString()))
-                {
-                    openedMusic.SetItemChecked(count, true);
-                }
-            }*/
-            //OpenChildForm(new Forms.FormOpenedFiles(this.openedMusic), sender);
-            OpenChildForm(new Forms.FormOpenedFiles(this.musicFiles), sender);
-            /*
-
-            */
-            
+            OpenChildForm(new Forms.FormOpenedFiles(this.musicFiles), sender);         
         }
 
         #endregion
 
-        private void btnOpenFolder_Click(object sender, EventArgs e)
+        private void BtnOpenFolder_Click(object sender, EventArgs e)
         {
             using(var fbd = new FolderBrowserDialog())
             {
@@ -275,16 +254,8 @@ namespace MusicPlayer
                     var files = Directory.EnumerateFiles(fbd.SelectedPath, "*.*", SearchOption.AllDirectories)
                         .Where(s => s.EndsWith(".mp3") || s.EndsWith(".wav"));
                     //openedMusic.DataSource = files.ToList();
-                    foreach (var file in files) { 
-                        openedFilesList.Add(new FileInfo(file));
+                    foreach (var file in files)
                         musicFiles.Add(new MusicFile(new System.IO.FileInfo(file)));
-                    }
-                    checkedListBox1.Items.AddRange(files.ToArray());
-                    MessageBox.Show(" FORM 1: "+ openedMusic.Items.Count.ToString());
-                    //OpenChildForm(new Forms.FormOpenedFiles(this.openedMusic), sender);
-                    //OpenChildForm(new Forms.FormOpenedFiles(checkedListBox1), sender);
-
-                    //OpenChildForm(new Forms.FormOpenedFiles(this.openedFilesList), sender);
                     OpenChildForm(new Forms.FormOpenedFiles(this.musicFiles), sender);
                 }
             }

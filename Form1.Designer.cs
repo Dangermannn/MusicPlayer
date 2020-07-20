@@ -52,7 +52,6 @@
             this.btnMedia = new System.Windows.Forms.Button();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelMainDesktop = new System.Windows.Forms.Panel();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.panelCard.SuspendLayout();
             this.panelCurrentPlaying.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMusicTimer)).BeginInit();
@@ -62,7 +61,6 @@
             this.panelPlaylistsSubMenu.SuspendLayout();
             this.panelMediaSubMenu.SuspendLayout();
             this.panelMenu.SuspendLayout();
-            this.panelMainDesktop.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAbout
@@ -78,7 +76,7 @@
             this.btnAbout.TabIndex = 3;
             this.btnAbout.Text = "About";
             this.btnAbout.UseVisualStyleBackColor = true;
-            this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
+            this.btnAbout.Click += new System.EventHandler(this.BtnAbout_Click);
             // 
             // panelCard
             // 
@@ -130,7 +128,7 @@
             this.btnPause.Text = "||";
             this.btnPause.UseVisualStyleBackColor = true;
             this.btnPause.Visible = false;
-            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
+            this.btnPause.Click += new System.EventHandler(this.BtnPause_Click);
             // 
             // btnPlayNextOne
             // 
@@ -145,7 +143,7 @@
             this.btnPlayNextOne.TabIndex = 3;
             this.btnPlayNextOne.Text = ">";
             this.btnPlayNextOne.UseVisualStyleBackColor = true;
-            this.btnPlayNextOne.Click += new System.EventHandler(this.btnPlayNextOne_Click);
+            this.btnPlayNextOne.Click += new System.EventHandler(this.BtnPlayNextOne_Click);
             // 
             // playLastPlayed
             // 
@@ -160,7 +158,7 @@
             this.playLastPlayed.TabIndex = 2;
             this.playLastPlayed.Text = "<";
             this.playLastPlayed.UseVisualStyleBackColor = true;
-            this.playLastPlayed.Click += new System.EventHandler(this.playPreviousInQueue_Click);
+            this.playLastPlayed.Click += new System.EventHandler(this.PlayPreviousInQueue_Click);
             // 
             // btnPlay
             // 
@@ -175,7 +173,7 @@
             this.btnPlay.TabIndex = 1;
             this.btnPlay.Text = "|>";
             this.btnPlay.UseVisualStyleBackColor = true;
-            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
+            this.btnPlay.Click += new System.EventHandler(this.BtnPlay_Click);
             // 
             // trackMusicTimer
             // 
@@ -289,7 +287,7 @@
             this.btnPlaylists.TabIndex = 2;
             this.btnPlaylists.Text = "Playlists";
             this.btnPlaylists.UseVisualStyleBackColor = true;
-            this.btnPlaylists.Click += new System.EventHandler(this.btnPlaylists_Click);
+            this.btnPlaylists.Click += new System.EventHandler(this.BtnPlaylists_Click);
             // 
             // panelMediaSubMenu
             // 
@@ -316,7 +314,7 @@
             this.btnOpenedMusic.TabIndex = 2;
             this.btnOpenedMusic.Text = "Opened music";
             this.btnOpenedMusic.UseVisualStyleBackColor = true;
-            this.btnOpenedMusic.Click += new System.EventHandler(this.btnOpenedMusic_Click);
+            this.btnOpenedMusic.Click += new System.EventHandler(this.BtnOpenedMusic_Click);
             // 
             // btnOpenFolder
             // 
@@ -331,7 +329,7 @@
             this.btnOpenFolder.TabIndex = 1;
             this.btnOpenFolder.Text = "Open folder";
             this.btnOpenFolder.UseVisualStyleBackColor = true;
-            this.btnOpenFolder.Click += new System.EventHandler(this.btnOpenFolder_Click);
+            this.btnOpenFolder.Click += new System.EventHandler(this.BtnOpenFolder_Click);
             // 
             // btnOpenFiles
             // 
@@ -346,7 +344,7 @@
             this.btnOpenFiles.TabIndex = 0;
             this.btnOpenFiles.Text = "Open files";
             this.btnOpenFiles.UseVisualStyleBackColor = true;
-            this.btnOpenFiles.Click += new System.EventHandler(this.btnOpenFiles_Click);
+            this.btnOpenFiles.Click += new System.EventHandler(this.BtnOpenFiles_Click);
             // 
             // btnMedia
             // 
@@ -361,7 +359,7 @@
             this.btnMedia.TabIndex = 0;
             this.btnMedia.Text = "Media";
             this.btnMedia.UseVisualStyleBackColor = true;
-            this.btnMedia.Click += new System.EventHandler(this.btnMedia_Click);
+            this.btnMedia.Click += new System.EventHandler(this.BtnMedia_Click);
             // 
             // panelMenu
             // 
@@ -377,20 +375,11 @@
             // 
             // panelMainDesktop
             // 
-            this.panelMainDesktop.Controls.Add(this.checkedListBox1);
             this.panelMainDesktop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMainDesktop.Location = new System.Drawing.Point(200, 50);
             this.panelMainDesktop.Name = "panelMainDesktop";
             this.panelMainDesktop.Size = new System.Drawing.Size(628, 344);
             this.panelMainDesktop.TabIndex = 3;
-            // 
-            // checkedListBox1
-            // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(132, 130);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(120, 94);
-            this.checkedListBox1.TabIndex = 0;
             // 
             // Form1
             // 
@@ -414,7 +403,6 @@
             this.panelPlaylistsSubMenu.ResumeLayout(false);
             this.panelMediaSubMenu.ResumeLayout(false);
             this.panelMenu.ResumeLayout(false);
-            this.panelMainDesktop.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -444,7 +432,6 @@
         private System.Windows.Forms.Button playLastPlayed;
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnPause;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
     }
 }
 
