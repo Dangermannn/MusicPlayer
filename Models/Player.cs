@@ -11,84 +11,92 @@ namespace MusicPlayer
 {
     public class Player
     {
-        private Queue<string> _playlist;
-        public static IWavePlayer player = new WaveOutEvent();
+        //private Queue<string> _playlist;
+        private List<MusicFile> _playlist; // used for recovering list;
+        private static IWavePlayer _player = new WaveOutEvent();
+        private string _currentPlaying;
+        private int _currentPlayingIndex;
 
         public Player(List<MusicFile> playlist)
         {
-            this._playlist = new Queue<string>();
-            foreach (var item in playlist)
-                if (item.state == CheckState.Checked)
-                    this._playlist.Enqueue(item.path.ToString());
+            this._playlist = new List<MusicFile>(playlist);
+            this._currentPlayingIndex = 0;
         }
         public Player()
         {
-            this._playlist = new Queue<string>();
+            _playlist = new List<MusicFile>();
         }
-        public Player(CheckedListBox playlist)
-        {
-            this._playlist = new Queue<string>();
 
-            foreach(FileInfo song in playlist.CheckedItems)
+        private void Update()
+        {
+            
+        }
+
+        public void PlayBeforeCurrentPlaying()
+        {
+            if(_player != null)
             {
-                this._playlist.Enqueue(song.ToString());
+                this.Update();
+                if (_playlist == null)
+                    return;
+
+                if (_playlist.First().path.ToString() == _currentPlaying)
+                    return;
+
+                _currentPlayingIndex = _currentPlayingIndex == 0 ? _currentPlayingIndex = _playlist.Count - 1 : _currentPlayingIndex -= 1;
+                var fileWaveStream = new AudioFileReader(_playlist[_currentPlayingIndex].path.ToString());
+                _player.Dispose();
+                _player.Init(fileWaveStream);
+                _player.Play();
             }
         }
 
         public void PlayPlaylist()
         {
-            //MessageBox.Show("PLAYING ");
             if (this._playlist.Count < 1)
-            {
-                //MessageBox.Show("PLAYLIST LESS THAN 1");
                 return;
-            }
 
-            if(player != null)
+            if(_player != null)
             {
-                player.Dispose();
-                player = null;
+                _player.Dispose();
+                _player = null;
             }
-            player = new WaveOutEvent();
-            var audioFilePath = _playlist.Dequeue();
-            //MessageBox.Show("DEQUING, playing " + audioFilePath.ToString());
-            var fileWaveStream = new AudioFileReader(audioFilePath);
-            player.Init(fileWaveStream);
-            player.Play();
-            //MessageBox.Show("AFTER PLAY METHOD");
-             /*
-            NAudio.Wave.WaveStream pcm = NAudio.Wave.WaveFormatConversionStream.CreatePcmStream
-                                        (new NAudio.Wave.Mp3FileReader(_playlist.First()));
-            var stream = new NAudio.Wave.BlockAlignReductionStream(pcm);
-            var output = new NAudio.Wave.DirectSoundOut();
-            output.Init(stream);
-            output.Play();
-            MessageBox.Show("STARTED PLAYING");
-            */
+            _player = new WaveOutEvent();
+            _currentPlaying = _playlist[_currentPlayingIndex].path.ToString();
+            var fileWaveStream = new AudioFileReader(_currentPlaying);
+            _player.Init(fileWaveStream);
+            _player.Play();
         }
 
         public void ResumePlaylist()
         {
-            if (player != null)
-                player.Play();
+            if (_player != null)
+                _player.Play();
         }
         public void PlayNext()
         {
-            if (player != null)
+            if (_player != null)
             {
-                var audioFilePath = _playlist.Dequeue();
-                var fileWaveStream = new AudioFileReader(audioFilePath);
-                player.Dispose();
-                player.Init(fileWaveStream);
-                player.Play();
-            }
-            else
-                MessageBox.Show("Error", "Playlist is empty!", MessageBoxButtons.OK);
+                if(_playlist.Count == 0)
+                {
+                    MessageBox.Show("Error", "Playlist is empty!", MessageBoxButtons.OK);
+                    return;
+                }
+                _currentPlayingIndex = (_currentPlayingIndex + 1) % _playlist.Count;
+                _currentPlaying = _playlist[_currentPlayingIndex].path.ToString();
+                var fileWaveStream = new AudioFileReader(_currentPlaying);
+                _player.Dispose();
+                _player.Init(fileWaveStream);
+                _player.Play();
+            }else
+                MessageBox.Show("Error", "Player has not been initialized", MessageBoxButtons.OK);
+
         }
+
         public void PausePlaylist()
         {
-            if (player != null)
-                player.Pause();
+            if (_player != null)
+                _player.Pause();
         }
     }
 }

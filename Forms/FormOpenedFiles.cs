@@ -13,18 +13,11 @@ namespace MusicPlayer.Forms
 {
     public partial class FormOpenedFiles : Form
     {
-        //public Player player;
-
-        public List<System.IO.FileInfo> openedFiles;
         public List<MusicFile> musicFiles = new List<MusicFile>();
         public FormOpenedFiles(List<MusicFile> fileList)
         {
             InitializeComponent();
             this.musicFiles = fileList;
-        }
-        public void Play()
-        {
-            //player?.PlayPlaylist();
         }
 
         private void FormOpenedFiles_Load(object sender, EventArgs e)

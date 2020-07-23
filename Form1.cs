@@ -15,20 +15,14 @@ namespace MusicPlayer
 {
     public partial class Form1 : Form
     {
-        private Player player;
         public static Color PrimaryColor { get; set; }
         public static Color SecondaryColor { get; set; }
 
+        private Player player;
         private Button _currentButton;
         private Random _random;
         private Form _activeForm;
         private int _tempIndex;
-
-        private NAudio.Wave.BlockAlignReductionStream stream = null;
-        private NAudio.Wave.DirectSoundOut output = null;
-
-        private string _currentPlayingFilePath = string.Empty;
-        private int _currentPlayingIndex = 0;
         
         private readonly List<MusicFile> musicFiles = new List<MusicFile>();
 
@@ -38,6 +32,7 @@ namespace MusicPlayer
             HideSubMenuAtStart();
             _random = new Random();
         }
+        #region Menu workflow
         private void HideSubMenuAtStart()
         {
             panelPlaylistsSubMenu.Visible = false;
@@ -120,6 +115,8 @@ namespace MusicPlayer
             childForm.Show();
         }
 
+        #endregion
+
         private void BtnPlaylists_Click(object sender, EventArgs e)
         {
             ActivateButton(sender);
@@ -136,6 +133,7 @@ namespace MusicPlayer
             OpenChildForm(new Forms.FormOpenedFiles(this.musicFiles), sender);
         }
 
+        #region Lower panel to play/pause/move to next one/before one music
         private void BtnPlay_Click(object sender, EventArgs e)
         {
             if (player == null)
@@ -151,24 +149,22 @@ namespace MusicPlayer
 
         private void BtnPlayNextOne_Click(object sender, EventArgs e)
         {
-
-            //btnPause.Visible = true;
             player.PlayNext();
         }
 
         private void BtnPause_Click(object sender, EventArgs e)
         {
-            if (player != null)
-                player.PausePlaylist();
+            player?.PausePlaylist();
             btnPause.Visible = false;
             btnPlay.Visible = true;
         }
 
         private void PlayPreviousInQueue_Click(object sender, EventArgs e)
         {
+            player?.PlayBeforeCurrentPlaying();
+        }
+        #endregion
 
-        }      
-        
         #region Media
         private void BtnMedia_Click(object sender, EventArgs e)
         {
@@ -186,7 +182,6 @@ namespace MusicPlayer
             if (open.ShowDialog() != DialogResult.OK) return;  
             foreach(String file in open.FileNames)
             {
-                MessageBox.Show(file);
                 try
                 {
                     musicFiles.Add(new MusicFile(new System.IO.FileInfo(file)));
