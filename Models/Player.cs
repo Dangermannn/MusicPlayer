@@ -72,6 +72,19 @@ namespace MusicPlayer
             if (player != null)
                 player.Play();
         }
+        public void PlayNext()
+        {
+            if (player != null)
+            {
+                var audioFilePath = _playlist.Dequeue();
+                var fileWaveStream = new AudioFileReader(audioFilePath);
+                player.Dispose();
+                player.Init(fileWaveStream);
+                player.Play();
+            }
+            else
+                MessageBox.Show("Error", "Playlist is empty!", MessageBoxButtons.OK);
+        }
         public void PausePlaylist()
         {
             if (player != null)

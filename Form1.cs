@@ -153,6 +153,7 @@ namespace MusicPlayer
         {
 
             //btnPause.Visible = true;
+            player.PlayNext();
         }
 
         private void BtnPause_Click(object sender, EventArgs e)
