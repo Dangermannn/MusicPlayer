@@ -15,6 +15,7 @@ namespace MusicPlayer
 {
     public partial class Form1 : Form
     {
+        private Player player;
         public static Color PrimaryColor { get; set; }
         public static Color SecondaryColor { get; set; }
 
@@ -153,11 +154,17 @@ namespace MusicPlayer
 
 
             //FormOpenedFiles openedFilesForm = new Forms.FormOpenedFiles(this.openedFilesList);
-            FormOpenedFiles openedFilesForm = new Forms.FormOpenedFiles(this.musicFiles);
+            //MessageBox.Show("BTN PLAY");
+
+
+            //FormOpenedFiles openedFilesForm = new Forms.FormOpenedFiles(this.musicFiles);
             //OpenChildForm(openedFilesForm, sender);
             //OpenChildForm(new Forms.FormOpenedFiles(this.openedMusic), sender);
 
-            openedFilesForm.Play();
+            //openedFilesForm.Play();
+            if(player == null)
+                player = new Player(musicFiles);
+            player.PlayPlaylist();
             btnPlay.Visible = false;
             btnPause.Visible = true;
         }
@@ -170,6 +177,8 @@ namespace MusicPlayer
 
         private void BtnPause_Click(object sender, EventArgs e)
         {
+            if (player != null)
+                player.PausePlaylist();
             btnPause.Visible = false;
             btnPlay.Visible = true;
         }
@@ -230,6 +239,7 @@ namespace MusicPlayer
             if (open.ShowDialog() != DialogResult.OK) return;  
             foreach(String file in open.FileNames)
             {
+                MessageBox.Show(file);
                 try
                 {
                     musicFiles.Add(new MusicFile(new System.IO.FileInfo(file)));
@@ -239,6 +249,13 @@ namespace MusicPlayer
                     MessageBox.Show("Error: Could not read file from disc. Error message: " + ex.Message);
                 }
             }
+            DisposeWave();
+            NAudio.Wave.WaveStream pcm = NAudio.Wave.WaveFormatConversionStream.CreatePcmStream
+                                                    (new NAudio.Wave.Mp3FileReader(musicFiles[0].path.ToString()));
+            stream = new NAudio.Wave.BlockAlignReductionStream(pcm);
+            output = new NAudio.Wave.DirectSoundOut();
+            output.Init(stream);
+            output.Play();
             OpenChildForm(new Forms.FormOpenedFiles(this.musicFiles), sender);         
         }
 
@@ -257,6 +274,7 @@ namespace MusicPlayer
                     foreach (var file in files)
                         musicFiles.Add(new MusicFile(new System.IO.FileInfo(file)));
                     OpenChildForm(new Forms.FormOpenedFiles(this.musicFiles), sender);
+                    //player = new Player(musicFiles);
                 }
             }
         }
