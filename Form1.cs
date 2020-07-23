@@ -32,7 +32,6 @@ namespace MusicPlayer
         
         private readonly List<MusicFile> musicFiles = new List<MusicFile>();
 
-       // private readonly ListBox openedMusic = new ListBox();
         public Form1()
         {
             InitializeComponent();
@@ -134,37 +133,18 @@ namespace MusicPlayer
 
         private void BtnOpenedMusic_Click(object sender, EventArgs e)
         {
-            //OpenChildForm(new Forms.FormOpenedFiles(this.openedMusic), sender);
-            
-            
             OpenChildForm(new Forms.FormOpenedFiles(this.musicFiles), sender);
-            //OpenChildForm(new Forms.FormOpenedFiles(this.openedFilesList), sender);
         }
 
         private void BtnPlay_Click(object sender, EventArgs e)
         {
-            /*
-            if (output != null)
+            if (player == null)
             {
-                if (output.PlaybackState == NAudio.Wave.PlaybackState.Playing) output.Pause();
-                else if (output.PlaybackState == NAudio.Wave.PlaybackState.Paused) output.Play();
-            }
-             */
-            //FormOpenedFiles openedFilesForm = new Forms.FormOpenedFiles(this.openedMusic);
-
-
-            //FormOpenedFiles openedFilesForm = new Forms.FormOpenedFiles(this.openedFilesList);
-            //MessageBox.Show("BTN PLAY");
-
-
-            //FormOpenedFiles openedFilesForm = new Forms.FormOpenedFiles(this.musicFiles);
-            //OpenChildForm(openedFilesForm, sender);
-            //OpenChildForm(new Forms.FormOpenedFiles(this.openedMusic), sender);
-
-            //openedFilesForm.Play();
-            if(player == null)
                 player = new Player(musicFiles);
-            player.PlayPlaylist();
+                player.PlayPlaylist();
+            }
+            else
+                player.ResumePlaylist();
             btnPlay.Visible = false;
             btnPause.Visible = true;
         }
@@ -185,43 +165,9 @@ namespace MusicPlayer
 
         private void PlayPreviousInQueue_Click(object sender, EventArgs e)
         {
-            /*
-             
-            foreach(string fileName in openedMusic.Items)
-            {
-                NAudio.Wave.WaveStream pcm = NAudio.Wave.WaveFormatConversionStream.CreatePcmStream
-                                        (new NAudio.Wave.Mp3FileReader(fileName));
-                stream = new NAudio.Wave.BlockAlignReductionStream(pcm);
-                output = new NAudio.Wave.DirectSoundOut();
-                output.Init(stream);
-                output.Play();
-            }
-             */
-            /*
-            DisposeWave();
-            NAudio.Wave.WaveStream pcm = NAudio.Wave.WaveFormatConversionStream.CreatePcmStream
-                                                    (new NAudio.Wave.Mp3FileReader(open.FileName));
-            stream = new NAudio.Wave.BlockAlignReductionStream(pcm);
-            output = new NAudio.Wave.DirectSoundOut();
-            output.Init(stream);
-            output.Play();
-            btnPlay.Visible = false;
-            */
-        }
-        private void DisposeWave()
-        {
-            if (output != null)
-            {
-                if (output.PlaybackState == NAudio.Wave.PlaybackState.Playing) output.Stop();
-                output.Dispose();
-                output = null;
-            }
-            if (stream != null)
-            {
-                stream.Dispose();
-                stream = null;
-            }
-        }
+
+        }      
+        
         #region Media
         private void BtnMedia_Click(object sender, EventArgs e)
         {
@@ -249,13 +195,6 @@ namespace MusicPlayer
                     MessageBox.Show("Error: Could not read file from disc. Error message: " + ex.Message);
                 }
             }
-            DisposeWave();
-            NAudio.Wave.WaveStream pcm = NAudio.Wave.WaveFormatConversionStream.CreatePcmStream
-                                                    (new NAudio.Wave.Mp3FileReader(musicFiles[0].path.ToString()));
-            stream = new NAudio.Wave.BlockAlignReductionStream(pcm);
-            output = new NAudio.Wave.DirectSoundOut();
-            output.Init(stream);
-            output.Play();
             OpenChildForm(new Forms.FormOpenedFiles(this.musicFiles), sender);         
         }
 
@@ -270,11 +209,9 @@ namespace MusicPlayer
                 {
                     var files = Directory.EnumerateFiles(fbd.SelectedPath, "*.*", SearchOption.AllDirectories)
                         .Where(s => s.EndsWith(".mp3") || s.EndsWith(".wav"));
-                    //openedMusic.DataSource = files.ToList();
                     foreach (var file in files)
                         musicFiles.Add(new MusicFile(new System.IO.FileInfo(file)));
                     OpenChildForm(new Forms.FormOpenedFiles(this.musicFiles), sender);
-                    //player = new Player(musicFiles);
                 }
             }
         }

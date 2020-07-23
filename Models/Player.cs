@@ -19,11 +19,7 @@ namespace MusicPlayer
             this._playlist = new Queue<string>();
             foreach (var item in playlist)
                 if (item.state == CheckState.Checked)
-                {
                     this._playlist.Enqueue(item.path.ToString());
-                    Console.WriteLine("ADDING " + item.path.ToString() + "\tSTATE: " + item.state.ToString());
-                }
-            //this._playlist = new Queue<string>(playlist);
         }
         public Player()
         {
@@ -32,7 +28,6 @@ namespace MusicPlayer
         public Player(CheckedListBox playlist)
         {
             this._playlist = new Queue<string>();
-            MessageBox.Show("CONSTRUCTOR: " + playlist.CheckedItems.Count);
 
             foreach(FileInfo song in playlist.CheckedItems)
             {
@@ -42,10 +37,10 @@ namespace MusicPlayer
 
         public void PlayPlaylist()
         {
-            MessageBox.Show("PLAYING ");
+            //MessageBox.Show("PLAYING ");
             if (this._playlist.Count < 1)
             {
-                MessageBox.Show("PLAYLIST LESS THAN 1");
+                //MessageBox.Show("PLAYLIST LESS THAN 1");
                 return;
             }
 
@@ -56,13 +51,11 @@ namespace MusicPlayer
             }
             player = new WaveOutEvent();
             var audioFilePath = _playlist.Dequeue();
-            MessageBox.Show("DEQUING, playing " + audioFilePath.ToString());
+            //MessageBox.Show("DEQUING, playing " + audioFilePath.ToString());
             var fileWaveStream = new AudioFileReader(audioFilePath);
             player.Init(fileWaveStream);
             player.Play();
-            MessageBox.Show("AFTER PLAY METHOD");
-            /*
-             */
+            //MessageBox.Show("AFTER PLAY METHOD");
              /*
             NAudio.Wave.WaveStream pcm = NAudio.Wave.WaveFormatConversionStream.CreatePcmStream
                                         (new NAudio.Wave.Mp3FileReader(_playlist.First()));
@@ -74,6 +67,11 @@ namespace MusicPlayer
             */
         }
 
+        public void ResumePlaylist()
+        {
+            if (player != null)
+                player.Play();
+        }
         public void PausePlaylist()
         {
             if (player != null)
