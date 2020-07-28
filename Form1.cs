@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace MusicPlayer
 {
@@ -25,13 +26,14 @@ namespace MusicPlayer
         private int _tempIndex;
         
         private readonly List<MusicFile> musicFiles = new List<MusicFile>();
-
+        private readonly List<List<MusicFile>> playlists = new List<List<MusicFile>>();
         public Form1()
         {
             InitializeComponent();
             HideSubMenuAtStart();
             _random = new Random();
         }
+
         #region Menu workflow
         private void HideSubMenuAtStart()
         {
@@ -116,7 +118,17 @@ namespace MusicPlayer
         }
 
         #endregion
+        private void LoadPlaylists()
+        {
 
+        }
+
+        private void SaveToXML()
+        {
+            Stream stream = File.OpenWrite(Environment.CurrentDirectory + "\\mymusic.txt");
+            XmlSerializer xmlSer = new XmlSerializer(typeof(MusicFile));
+            xmlSer.Serialize(stream, musicFiles);
+        }
         private void BtnPlaylists_Click(object sender, EventArgs e)
         {
             ActivateButton(sender);
@@ -142,7 +154,7 @@ namespace MusicPlayer
                 player.PlayPlaylist();
             }
             else
-                player.ResumePlaylist();
+            player.ResumePlaylist();
             btnPlay.Visible = false;
             btnPause.Visible = true;
         }
@@ -194,7 +206,6 @@ namespace MusicPlayer
             OpenChildForm(new Forms.FormOpenedFiles(this.musicFiles), sender);         
         }
 
-        #endregion
 
         private void BtnOpenFolder_Click(object sender, EventArgs e)
         {
@@ -210,6 +221,46 @@ namespace MusicPlayer
                     OpenChildForm(new Forms.FormOpenedFiles(this.musicFiles), sender);
                 }
             }
+            SaveToXML();
         }
+        #endregion
+        #region Playlists
+        private void btnCreatePlaylist_Click(object sender, EventArgs e)
+        {
+
+            string name = String.Empty;
+            var formAllPlaylists = new FormAllPlaylists();
+            using (var form = new FormCreatePlaylist())
+            {
+                var result = form.ShowDialog();
+                Console.WriteLine("RESU:T: " + result.ToString());
+                if(result == DialogResult.OK)
+                {
+                    name = form.playlistName;
+                    Console.WriteLine("NAME: " + name);
+                    formAllPlaylists.AddLabel("testadd");
+                    /*
+                    string val = form.ReturnValue1;            //values preserved after close
+                    string dateString = form.ReturnValue2;
+                    //Do something here with these values
+
+                    //for example
+                    this.txtSomething.Text = val;
+                    */
+                }
+            }
+            OpenChildForm(formAllPlaylists, sender);
+        }
+
+        private void btnFavouritePlaylists_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnShowAllPlaylists_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
     }
 }

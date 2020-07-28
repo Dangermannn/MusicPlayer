@@ -11,8 +11,7 @@ namespace MusicPlayer
 {
     public class Player
     {
-        //private Queue<string> _playlist;
-        private List<MusicFile> _playlist; // used for recovering list;
+        private List<MusicFile> _playlist;
         private static IWavePlayer _player = new WaveOutEvent();
         private string _currentPlaying;
         private int _currentPlayingIndex;
@@ -62,8 +61,11 @@ namespace MusicPlayer
                 _player = null;
             }
             _player = new WaveOutEvent();
+            Console.WriteLine("BEFORE: " + _currentPlayingIndex.ToString());
             _currentPlaying = _playlist[_currentPlayingIndex].path.ToString();
+            _currentPlayingIndex++;
             var fileWaveStream = new AudioFileReader(_currentPlaying);
+            Console.WriteLine("\tAFTER: " + _currentPlayingIndex.ToString());
             _player.Init(fileWaveStream);
             _player.Play();
         }

@@ -11,10 +11,14 @@ namespace MusicPlayer
     {
         public System.IO.FileInfo path { get; set; }
         public CheckState state { get; set; }
+        public MusicFile() {
+            state = CheckState.Checked;
+        }
         public MusicFile(System.IO.FileInfo path)
         {
             this.path = path;
             state = CheckState.Checked;
         }
+
     }
 }

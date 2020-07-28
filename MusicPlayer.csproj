@@ -57,6 +57,18 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormAllPlaylists.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormAllPlaylists.Designer.cs">
+      <DependentUpon>FormAllPlaylists.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormCreatePlaylist.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormCreatePlaylist.Designer.cs">
+      <DependentUpon>FormCreatePlaylist.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormOpenedFiles.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +82,12 @@
     <Compile Include="Models\ThemeColor.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormAllPlaylists.resx">
+      <DependentUpon>FormAllPlaylists.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormCreatePlaylist.resx">
+      <DependentUpon>FormCreatePlaylist.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormOpenedFiles.resx">
       <DependentUpon>FormOpenedFiles.cs</DependentUpon>

@@ -200,6 +200,7 @@
             this.btnFavouritePlaylists.TabIndex = 2;
             this.btnFavouritePlaylists.Text = "Favourite playlists";
             this.btnFavouritePlaylists.UseVisualStyleBackColor = true;
+            this.btnFavouritePlaylists.Click += new System.EventHandler(this.btnFavouritePlaylists_Click);
             // 
             // panelLogo
             // 
@@ -259,6 +260,7 @@
             this.btnShowAllPlaylists.TabIndex = 1;
             this.btnShowAllPlaylists.Text = "Show all playlists";
             this.btnShowAllPlaylists.UseVisualStyleBackColor = true;
+            this.btnShowAllPlaylists.Click += new System.EventHandler(this.btnShowAllPlaylists_Click);
             // 
             // btnCreatePlaylist
             // 
@@ -273,6 +275,7 @@
             this.btnCreatePlaylist.TabIndex = 0;
             this.btnCreatePlaylist.Text = "Create playlist";
             this.btnCreatePlaylist.UseVisualStyleBackColor = true;
+            this.btnCreatePlaylist.Click += new System.EventHandler(this.btnCreatePlaylist_Click);
             // 
             // btnPlaylists
             // 
