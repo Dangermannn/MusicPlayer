@@ -4,17 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace MusicPlayer
 {
     public class MusicFile
     {
-        public System.IO.FileInfo path { get; set; }
+        [XmlElement("Path")]
+        public string path { get; set; }
+
+        [XmlElement("State")]
         public CheckState state { get; set; }
+
         public MusicFile() {
             state = CheckState.Checked;
         }
-        public MusicFile(System.IO.FileInfo path)
+        public MusicFile(string path)
         {
             this.path = path;
             state = CheckState.Checked;

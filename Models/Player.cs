@@ -1,4 +1,5 @@
-﻿using NAudio.Wave;
+﻿using MusicPlayer.Models;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,19 +12,20 @@ namespace MusicPlayer
 {
     public class Player
     {
-        private List<MusicFile> _playlist;
+        private Playlist _playlist;
         private static IWavePlayer _player = new WaveOutEvent();
         private string _currentPlaying;
         private int _currentPlayingIndex;
 
-        public Player(List<MusicFile> playlist)
+
+        public Player(Playlist playlist)
         {
-            this._playlist = new List<MusicFile>(playlist);
+            this._playlist = playlist;
             this._currentPlayingIndex = 0;
         }
         public Player()
         {
-            _playlist = new List<MusicFile>();
+            _playlist = new Playlist();
         }
 
         private void Update()
@@ -39,11 +41,11 @@ namespace MusicPlayer
                 if (_playlist == null)
                     return;
 
-                if (_playlist.First().path.ToString() == _currentPlaying)
+                if (_playlist.musicList.First().path.ToString() == _currentPlaying)
                     return;
 
-                _currentPlayingIndex = _currentPlayingIndex == 0 ? _currentPlayingIndex = _playlist.Count - 1 : _currentPlayingIndex -= 1;
-                var fileWaveStream = new AudioFileReader(_playlist[_currentPlayingIndex].path.ToString());
+                _currentPlayingIndex = _currentPlayingIndex == 0 ? _currentPlayingIndex = _playlist.musicList.Count - 1 : _currentPlayingIndex -= 1;
+                var fileWaveStream = new AudioFileReader(_playlist.musicList[_currentPlayingIndex].path.ToString());
                 _player.Dispose();
                 _player.Init(fileWaveStream);
                 _player.Play();
@@ -52,7 +54,7 @@ namespace MusicPlayer
 
         public void PlayPlaylist()
         {
-            if (this._playlist.Count < 1)
+            if (this._playlist.musicList.Count < 1)
                 return;
 
             if(_player != null)
@@ -62,7 +64,7 @@ namespace MusicPlayer
             }
             _player = new WaveOutEvent();
             Console.WriteLine("BEFORE: " + _currentPlayingIndex.ToString());
-            _currentPlaying = _playlist[_currentPlayingIndex].path.ToString();
+            _currentPlaying = _playlist.musicList[_currentPlayingIndex].path.ToString();
             _currentPlayingIndex++;
             var fileWaveStream = new AudioFileReader(_currentPlaying);
             Console.WriteLine("\tAFTER: " + _currentPlayingIndex.ToString());
@@ -79,13 +81,13 @@ namespace MusicPlayer
         {
             if (_player != null)
             {
-                if(_playlist.Count == 0)
+                if(_playlist.musicList.Count == 0)
                 {
                     MessageBox.Show("Error", "Playlist is empty!", MessageBoxButtons.OK);
                     return;
                 }
-                _currentPlayingIndex = (_currentPlayingIndex + 1) % _playlist.Count;
-                _currentPlaying = _playlist[_currentPlayingIndex].path.ToString();
+                _currentPlayingIndex = (_currentPlayingIndex + 1) % _playlist.musicList.Count;
+                _currentPlaying = _playlist.musicList[_currentPlayingIndex].path.ToString();
                 var fileWaveStream = new AudioFileReader(_currentPlaying);
                 _player.Dispose();
                 _player.Init(fileWaveStream);

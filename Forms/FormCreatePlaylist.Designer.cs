@@ -45,13 +45,17 @@
             // 
             // textBoxPlaylistName
             // 
+            this.textBoxPlaylistName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxPlaylistName.Location = new System.Drawing.Point(101, 13);
+            this.textBoxPlaylistName.MaxLength = 35;
             this.textBoxPlaylistName.Name = "textBoxPlaylistName";
             this.textBoxPlaylistName.Size = new System.Drawing.Size(287, 20);
             this.textBoxPlaylistName.TabIndex = 1;
             // 
             // btnConfirm
             // 
+            this.btnConfirm.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnConfirm.Location = new System.Drawing.Point(220, 56);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(75, 23);
@@ -62,6 +66,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnCancel.Location = new System.Drawing.Point(101, 56);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);

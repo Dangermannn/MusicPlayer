@@ -33,6 +33,7 @@
             // 
             // flowLayoutPanelWithPlaylists
             // 
+            this.flowLayoutPanelWithPlaylists.AutoScroll = true;
             this.flowLayoutPanelWithPlaylists.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelWithPlaylists.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanelWithPlaylists.Name = "flowLayoutPanelWithPlaylists";
@@ -47,6 +48,7 @@
             this.Controls.Add(this.flowLayoutPanelWithPlaylists);
             this.Name = "FormAllPlaylists";
             this.Text = "FormAllPlaylists";
+            this.Load += new System.EventHandler(this.FormAllPlaylists_Load);
             this.ResumeLayout(false);
 
         }

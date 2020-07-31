@@ -1,4 +1,6 @@
-﻿using MusicPlayer.Forms;
+﻿using MusicPlayer.DataAccess;
+using MusicPlayer.Forms;
+using MusicPlayer.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,8 +27,9 @@ namespace MusicPlayer
         private Form _activeForm;
         private int _tempIndex;
         
-        private readonly List<MusicFile> musicFiles = new List<MusicFile>();
-        private readonly List<List<MusicFile>> playlists = new List<List<MusicFile>>();
+        private Playlist currentOpenedPlaylist = new Playlist();
+        private PlaylistList playlistList = new PlaylistList();
+        //private readonly List<List<MusicFile>> playlists = new List<List<MusicFile>>();
         public Form1()
         {
             InitializeComponent();
@@ -118,16 +121,13 @@ namespace MusicPlayer
         }
 
         #endregion
-        private void LoadPlaylists()
-        {
-
-        }
 
         private void SaveToXML()
         {
-            Stream stream = File.OpenWrite(Environment.CurrentDirectory + "\\mymusic.txt");
-            XmlSerializer xmlSer = new XmlSerializer(typeof(MusicFile));
-            xmlSer.Serialize(stream, musicFiles);
+            playlistList.playlistList.Add(currentOpenedPlaylist);
+            XmlImportExport<PlaylistList> xmlImportExport = new XmlImportExport<PlaylistList>();
+            xmlImportExport.SerializeToXml(playlistList, "playlists.txt");
+           
         }
         private void BtnPlaylists_Click(object sender, EventArgs e)
         {
@@ -142,7 +142,7 @@ namespace MusicPlayer
 
         private void BtnOpenedMusic_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new Forms.FormOpenedFiles(this.musicFiles), sender);
+            OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), sender);
         }
 
         #region Lower panel to play/pause/move to next one/before one music
@@ -150,7 +150,7 @@ namespace MusicPlayer
         {
             if (player == null)
             {
-                player = new Player(musicFiles);
+                player = new Player(currentOpenedPlaylist);
                 player.PlayPlaylist();
             }
             else
@@ -196,14 +196,14 @@ namespace MusicPlayer
             {
                 try
                 {
-                    musicFiles.Add(new MusicFile(new System.IO.FileInfo(file)));
+                    currentOpenedPlaylist.musicList.Add(new MusicFile(new System.IO.FileInfo(file).ToString()));
                 }
                 catch(Exception ex)
                 {
                     MessageBox.Show("Error: Could not read file from disc. Error message: " + ex.Message);
                 }
             }
-            OpenChildForm(new Forms.FormOpenedFiles(this.musicFiles), sender);         
+            OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), sender);         
         }
 
 
@@ -217,8 +217,8 @@ namespace MusicPlayer
                     var files = Directory.EnumerateFiles(fbd.SelectedPath, "*.*", SearchOption.AllDirectories)
                         .Where(s => s.EndsWith(".mp3") || s.EndsWith(".wav"));
                     foreach (var file in files)
-                        musicFiles.Add(new MusicFile(new System.IO.FileInfo(file)));
-                    OpenChildForm(new Forms.FormOpenedFiles(this.musicFiles), sender);
+                        currentOpenedPlaylist.musicList.Add(new MusicFile(new System.IO.FileInfo(file).ToString()));
+                    OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), sender);
                 }
             }
             SaveToXML();
@@ -227,40 +227,47 @@ namespace MusicPlayer
         #region Playlists
         private void btnCreatePlaylist_Click(object sender, EventArgs e)
         {
-
-            string name = String.Empty;
-            var formAllPlaylists = new FormAllPlaylists();
             using (var form = new FormCreatePlaylist())
             {
                 var result = form.ShowDialog();
-                Console.WriteLine("RESU:T: " + result.ToString());
                 if(result == DialogResult.OK)
                 {
-                    name = form.playlistName;
-                    Console.WriteLine("NAME: " + name);
-                    formAllPlaylists.AddLabel("testadd");
-                    /*
-                    string val = form.ReturnValue1;            //values preserved after close
-                    string dateString = form.ReturnValue2;
-                    //Do something here with these values
-
-                    //for example
-                    this.txtSomething.Text = val;
-                    */
+                    if (string.IsNullOrWhiteSpace(form.playlistName))
+                        return;
+                    Playlist p = new Playlist(form.playlistName);
+                    playlistList.playlistList.Add(p);
+                    var formAllPlaylists = new FormAllPlaylists(playlistList);
+                    OpenChildForm(formAllPlaylists, sender);
                 }
             }
-            OpenChildForm(formAllPlaylists, sender);
+
         }
 
         private void btnFavouritePlaylists_Click(object sender, EventArgs e)
         {
-
+            PlaylistList temp = new PlaylistList();
+            foreach(var playlist in playlistList.playlistList)
+            {
+                if (playlist.isFavourite)
+                    temp.playlistList.Add(playlist);
+            }
+            OpenChildForm(new FormAllPlaylists(temp), sender);
         }
 
         private void btnShowAllPlaylists_Click(object sender, EventArgs e)
-        {
-
+        {             
+            XmlImportExport<PlaylistList> xmlImport = new XmlImportExport<PlaylistList>();
+            playlistList = xmlImport.DeserializeXml("playlists.txt");
+            Console.WriteLine("LENGTH: " + playlistList.playlistList.Count);
+            OpenChildForm(new Forms.FormAllPlaylists(playlistList), null);
         }
         #endregion
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            XmlImportExport<PlaylistList> xmlImport = new XmlImportExport<PlaylistList>();
+            playlistList = xmlImport.DeserializeXml("playlists.txt");
+            OpenChildForm(new Forms.FormAllPlaylists(playlistList), null);
+        }
     }
 }

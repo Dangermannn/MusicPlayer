@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MusicPlayer.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,16 +14,16 @@ namespace MusicPlayer.Forms
 {
     public partial class FormOpenedFiles : Form
     {
-        public List<MusicFile> musicFiles = new List<MusicFile>();
-        public FormOpenedFiles(List<MusicFile> fileList)
+        public Playlist playlist = new Playlist();
+        public FormOpenedFiles(Playlist fileList)
         {
             InitializeComponent();
-            this.musicFiles = fileList;
+            this.playlist= fileList;
         }
 
         private void FormOpenedFiles_Load(object sender, EventArgs e)
         {
-            foreach(var file in musicFiles)
+            foreach(var file in playlist.musicList)
                 checkedListBoxWithMusicOpened.Items.Add(file.path.ToString().Split('\\').Last(), file.state);
         }
 
@@ -30,7 +31,7 @@ namespace MusicPlayer.Forms
         {
             for(int i = 0; i < checkedListBoxWithMusicOpened.Items.Count; i++)
             {
-                musicFiles[i].state = checkedListBoxWithMusicOpened.GetItemCheckState(i);
+                playlist.musicList[i].state = checkedListBoxWithMusicOpened.GetItemCheckState(i);
             }
         }
         /*
