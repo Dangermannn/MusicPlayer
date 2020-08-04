@@ -31,28 +31,26 @@ namespace MusicPlayer.DataAccess
             //stream = File.OpenWrite(Environment.CurrentDirectory + "\\" + fileName);
         }
 
-        public void SerializeToXml(T root, string fileName)
+        public void SerializeToXml(T root, string fileName, string rootAttribute)
         {
             //xmlSer.Serialize(stream, files);
             // Stream stream = File.OpenWrite(Environment.CurrentDirectory + "\\mymusic.txt");
-            using (var stream = File.OpenWrite(Environment.CurrentDirectory + "\\" + fileName))
+            using (var stream = File.Create(Environment.CurrentDirectory + "\\" + fileName))
             {
-                XmlSerializer xmlSer = new XmlSerializer(typeof(T));
+                XmlSerializer xmlSer = new XmlSerializer(typeof(T), new XmlRootAttribute(rootAttribute));
                 xmlSer.Serialize(stream, root);
             }
         }
 
-        public T DeserializeXml(string fileName)
+        public T DeserializeXml(string fileName, string rootAttribute)
         {
-
             T listOfItems;
             using (var reader = new StreamReader(Environment.CurrentDirectory + "\\" + fileName))
             {
                 XmlSerializer deserializer = new XmlSerializer(typeof(T),
-                    new XmlRootAttribute("PlaylistList"));
+                    new XmlRootAttribute(rootAttribute));
                 listOfItems = (T)deserializer.Deserialize(reader);
                 return listOfItems;
-
             }
         }
     }

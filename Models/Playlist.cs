@@ -12,9 +12,9 @@ namespace MusicPlayer.Models
         [XmlElement("PlaylistName")]
         public string name { get; set; }
 
+        public List<MusicFile> musicList { get; set; }
         [XmlElement("Favourite")]
         public bool isFavourite { get; set; }
-        public List<MusicFile> musicList { get; set; }
         public Playlist()
         {
             this.name = "Not named";
@@ -25,19 +25,28 @@ namespace MusicPlayer.Models
         {
             this.name = name;
             this.musicList = new List<MusicFile>();
+            this.isFavourite = false;
         }
 
         public Playlist(List<MusicFile> items)
         {
             this.name = "Not named";
             this.musicList = items;
+            this.isFavourite = false;
         }
 
         public Playlist(List<MusicFile> items, string name)
         {
             this.name = name;
             this.musicList = items;
-        } 
-        
+            this.isFavourite = false;
+        }
+
+        public Playlist(List<MusicFile> items, string name, bool isFavourite)
+        {
+            this.name = name;
+            this.musicList = items;
+            this.isFavourite = isFavourite;
+        }
     }
 }
