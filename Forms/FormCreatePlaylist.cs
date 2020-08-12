@@ -29,7 +29,7 @@ namespace MusicPlayer.Forms
         private void btnConfirm_Click(object sender, EventArgs e)
         {
             if(string.IsNullOrWhiteSpace(textBoxPlaylistName.Text))
-                MessageBox.Show("Error", "Text field cannot be empty");
+                MessageBox.Show("Text field cannot be empty", "Error");
             else
             {
                 playlistName = textBoxPlaylistName.Text;

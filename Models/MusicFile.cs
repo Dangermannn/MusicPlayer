@@ -25,5 +25,11 @@ namespace MusicPlayer
             state = CheckState.Checked;
         }
 
+        public MusicFile(string path, CheckState state)
+        {
+            this.path = path;
+            this.state = state;
+        }
+
     }
 }

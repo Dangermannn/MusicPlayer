@@ -11,10 +11,10 @@ namespace MusicPlayer.Models
     {
         [XmlElement("PlaylistName")]
         public string name { get; set; }
-
-        public List<MusicFile> musicList { get; set; }
         [XmlElement("Favourite")]
         public bool isFavourite { get; set; }
+        [XmlElement("MusicFiles")]
+        public List<MusicFile> musicList { get; set; }
         public Playlist()
         {
             this.name = "Not named";

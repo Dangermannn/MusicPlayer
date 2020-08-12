@@ -24,7 +24,7 @@ namespace MusicPlayer.Forms
         private void FormOpenedFiles_Load(object sender, EventArgs e)
         {
             foreach(var file in playlist.musicList)
-                checkedListBoxWithMusicOpened.Items.Add(file.path.ToString().Split('\\').Last(), file.state);
+                checkedListBoxWithMusicOpened.Items.Add(file.path?.ToString().Split('\\').Last(), file.state);
         }
 
         private void checkedListBoxWithMusicOpened_MouseClick(object sender, MouseEventArgs e)
@@ -33,6 +33,10 @@ namespace MusicPlayer.Forms
             {
                 playlist.musicList[i].state = checkedListBoxWithMusicOpened.GetItemCheckState(i);
             }
+        }
+        public void test()
+        {
+
         }
         /*
 private void checkedListBoxWithMusicOpened_SelectedIndexChanged(object sender, EventArgs e)

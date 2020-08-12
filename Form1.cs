@@ -18,9 +18,6 @@ namespace MusicPlayer
 {
     public partial class Form1 : Form
     {
-        public static Color PrimaryColor { get; set; }
-        public static Color SecondaryColor { get; set; }
-
         private Player player;
         private Button _currentButton;
         private Random _random;
@@ -29,11 +26,13 @@ namespace MusicPlayer
         
         private Playlist currentOpenedPlaylist = new Playlist();
         private PlaylistList playlistList = new PlaylistList();
-        //private readonly List<List<MusicFile>> playlists = new List<List<MusicFile>>();
+
         public Form1()
         {
+            ThemeColor.PrimaryColor = Color.FromArgb(39, 39, 58);
             InitializeComponent();
             HideSubMenuAtStart();
+            checkBoxSelectAll.Visible = false;
             _random = new Random();
         }
 
@@ -105,11 +104,15 @@ namespace MusicPlayer
                 }
             }
         }
-
+        public void OpenPlaylistFromReceivingEvent(Playlist playlist)
+        {
+            currentOpenedPlaylist = playlist;
+            OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), null);
+        }
+        public delegate void DelegateOpenChildForm(Form childForm, object btnSender);
         private void OpenChildForm(Form childForm, object btnSender)
         {
             _activeForm?.Close();
-            ActivateButton(btnSender);
             _activeForm = childForm;
             childForm.TopLevel = false;
             childForm.FormBorderStyle = FormBorderStyle.None;
@@ -124,10 +127,8 @@ namespace MusicPlayer
 
         private void SaveToXML()
         {
-            playlistList.playlistList.Add(currentOpenedPlaylist);
             XmlImportExport<PlaylistList> xmlImportExport = new XmlImportExport<PlaylistList>();
-            xmlImportExport.SerializeToXml(playlistList, "playlists.txt");
-           
+            xmlImportExport.SerializeToXml(playlistList, "playlists.xml", "PlaylistList");
         }
         private void BtnPlaylists_Click(object sender, EventArgs e)
         {
@@ -154,7 +155,7 @@ namespace MusicPlayer
                 player.PlayPlaylist();
             }
             else
-            player.ResumePlaylist();
+                player.ResumePlaylist();
             btnPlay.Visible = false;
             btnPause.Visible = true;
         }
@@ -191,7 +192,8 @@ namespace MusicPlayer
                 Title = "Please select files to open *.mp3/*.wav",
                 Filter = "Audio File (*.mp3;*.wav)|*.mp3;*.wav;"
             };
-            if (open.ShowDialog() != DialogResult.OK) return;  
+            if (open.ShowDialog() != DialogResult.OK) return;
+            checkBoxSelectAll.Visible = true;
             foreach(String file in open.FileNames)
             {
                 try
@@ -202,7 +204,7 @@ namespace MusicPlayer
                 {
                     MessageBox.Show("Error: Could not read file from disc. Error message: " + ex.Message);
                 }
-            }
+            }   
             OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), sender);         
         }
 
@@ -218,10 +220,10 @@ namespace MusicPlayer
                         .Where(s => s.EndsWith(".mp3") || s.EndsWith(".wav"));
                     foreach (var file in files)
                         currentOpenedPlaylist.musicList.Add(new MusicFile(new System.IO.FileInfo(file).ToString()));
+                    checkBoxSelectAll.Visible = true;
                     OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), sender);
                 }
             }
-            SaveToXML();
         }
         #endregion
         #region Playlists
@@ -234,9 +236,17 @@ namespace MusicPlayer
                 {
                     if (string.IsNullOrWhiteSpace(form.playlistName))
                         return;
+                    var isItem = playlistList.playlistList.Where(x => x.name == form.playlistName).ToList();
+                    if (isItem.Count != 0)
+                    {
+                        MessageBox.Show("There's a playlist with the same name. Try other name", "Error", MessageBoxButtons.OK);
+                        return;
+                    }
+                            
                     Playlist p = new Playlist(form.playlistName);
                     playlistList.playlistList.Add(p);
                     var formAllPlaylists = new FormAllPlaylists(playlistList);
+                    SaveToXML();
                     OpenChildForm(formAllPlaylists, sender);
                 }
             }
@@ -257,17 +267,32 @@ namespace MusicPlayer
         private void btnShowAllPlaylists_Click(object sender, EventArgs e)
         {             
             XmlImportExport<PlaylistList> xmlImport = new XmlImportExport<PlaylistList>();
-            playlistList = xmlImport.DeserializeXml("playlists.txt");
-            Console.WriteLine("LENGTH: " + playlistList.playlistList.Count);
-            OpenChildForm(new Forms.FormAllPlaylists(playlistList), null);
+            playlistList = xmlImport.DeserializeXml("playlists.xml", "PlaylistList");
+            var form = new Forms.FormAllPlaylists(playlistList);
+            form.playlistEventHandler += OpenPlaylistFromReceivingEvent;
+            OpenChildForm(form, null);
+            Application.DoEvents();
         }
         #endregion
-
+        
         private void Form1_Load(object sender, EventArgs e)
         {
             XmlImportExport<PlaylistList> xmlImport = new XmlImportExport<PlaylistList>();
-            playlistList = xmlImport.DeserializeXml("playlists.txt");
-            OpenChildForm(new Forms.FormAllPlaylists(playlistList), null);
+            playlistList = xmlImport.DeserializeXml("playlists.xml", "PlaylistList");
+            var form = new Forms.FormAllPlaylists(playlistList);
+            form.playlistEventHandler += OpenPlaylistFromReceivingEvent;
+            OpenChildForm(form, null);
+            Application.DoEvents();
+        }
+
+        private void checkBoxSelectAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxSelectAll.Checked)
+                foreach (var song in currentOpenedPlaylist.musicList)
+                    song.state = CheckState.Checked;
+            else
+                foreach (var song in currentOpenedPlaylist.musicList)
+                    song.state = CheckState.Unchecked;
         }
     }
 }

@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.btnAbout = new System.Windows.Forms.Button();
             this.panelCard = new System.Windows.Forms.Panel();
+            this.checkBoxSelectAll = new System.Windows.Forms.CheckBox();
             this.lblTitle = new System.Windows.Forms.Label();
             this.panelCurrentPlaying = new System.Windows.Forms.Panel();
             this.btnPause = new System.Windows.Forms.Button();
@@ -40,6 +41,7 @@
             this.trackMusicTimer = new System.Windows.Forms.TrackBar();
             this.btnFavouritePlaylists = new System.Windows.Forms.Button();
             this.panelLogo = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panelPlaylistsSubMenu = new System.Windows.Forms.Panel();
             this.btnShowAllPlaylists = new System.Windows.Forms.Button();
@@ -52,16 +54,15 @@
             this.btnMedia = new System.Windows.Forms.Button();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelMainDesktop = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelCard.SuspendLayout();
             this.panelCurrentPlaying.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMusicTimer)).BeginInit();
             this.panelLogo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panelPlaylistsSubMenu.SuspendLayout();
             this.panelMediaSubMenu.SuspendLayout();
             this.panelMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAbout
@@ -82,12 +83,26 @@
             // panelCard
             // 
             this.panelCard.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.panelCard.Controls.Add(this.checkBoxSelectAll);
             this.panelCard.Controls.Add(this.lblTitle);
             this.panelCard.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelCard.Location = new System.Drawing.Point(200, 0);
             this.panelCard.Name = "panelCard";
             this.panelCard.Size = new System.Drawing.Size(628, 50);
             this.panelCard.TabIndex = 1;
+            // 
+            // checkBoxSelectAll
+            // 
+            this.checkBoxSelectAll.AutoSize = true;
+            this.checkBoxSelectAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxSelectAll.ForeColor = System.Drawing.SystemColors.Control;
+            this.checkBoxSelectAll.Location = new System.Drawing.Point(18, 23);
+            this.checkBoxSelectAll.Name = "checkBoxSelectAll";
+            this.checkBoxSelectAll.Size = new System.Drawing.Size(102, 24);
+            this.checkBoxSelectAll.TabIndex = 1;
+            this.checkBoxSelectAll.Text = "Select all";
+            this.checkBoxSelectAll.UseVisualStyleBackColor = true;
+            this.checkBoxSelectAll.CheckedChanged += new System.EventHandler(this.checkBoxSelectAll_CheckedChanged);
             // 
             // lblTitle
             // 
@@ -213,6 +228,18 @@
             this.panelLogo.Name = "panelLogo";
             this.panelLogo.Size = new System.Drawing.Size(200, 50);
             this.panelLogo.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.ErrorImage = global::MusicPlayer.Properties.Resources.cat_no_bg1;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.InitialImage = global::MusicPlayer.Properties.Resources.cat_no_bg1;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 13);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(41, 37);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // panel1
             // 
@@ -375,18 +402,6 @@
             this.panelMainDesktop.Size = new System.Drawing.Size(628, 344);
             this.panelMainDesktop.TabIndex = 3;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.ErrorImage = global::MusicPlayer.Properties.Resources.cat_no_bg1;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.InitialImage = global::MusicPlayer.Properties.Resources.cat_no_bg1;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 13);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(41, 37);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -405,11 +420,11 @@
             this.panelCurrentPlaying.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMusicTimer)).EndInit();
             this.panelLogo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panelPlaylistsSubMenu.ResumeLayout(false);
             this.panelMediaSubMenu.ResumeLayout(false);
             this.panelMenu.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -439,6 +454,7 @@
         private System.Windows.Forms.Button playLastPlayed;
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnPause;
+        private System.Windows.Forms.CheckBox checkBoxSelectAll;
     }
 }
 
