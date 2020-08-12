@@ -130,13 +130,7 @@ namespace MusicPlayer.Forms
         {
             Panel p = (Panel)sender;
             var playlist = playlistList.playlistList.Where(x => x.name == p.Name).ToList();
-            if(playlist == null)
-                Console.WriteLine("PLAYLIST IS NULL");
-            else
-            {
-                Console.WriteLine("PLAYLIST HAS SOME VALUE");
-            }
-            if (playlist.Count > 0)
+            if (playlist?.Count > 0)
             {
                 playlistToOpen = playlist[0];
                 MessageBox.Show("Added playlist" + playlist[0].GetType(), "Error");
@@ -145,9 +139,6 @@ namespace MusicPlayer.Forms
                 playlistToOpen = new Playlist();
 
             SendClickingPlaylistEvent();
-            //MessageBox.Show("P: " + playlistToOpen.GetType().ToString() + " name: " + playlistToOpen.name);
-            //this.ParentForm.
-            //OpenChildForm(new Forms.FormOpenedFiles(playlistToOpen), sender);
         }
 
         private void FormAllPlaylists_Load(object sender, EventArgs e)

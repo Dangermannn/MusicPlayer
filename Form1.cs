@@ -32,11 +32,25 @@ namespace MusicPlayer
             ThemeColor.PrimaryColor = Color.FromArgb(39, 39, 58);
             InitializeComponent();
             HideSubMenuAtStart();
-            checkBoxSelectAll.Visible = false;
+            HideOpenedFilesFunctions();
+            checkBoxSelectAll.Checked = true;
             _random = new Random();
         }
 
         #region Menu workflow
+
+        private void HideOpenedFilesFunctions()
+        {
+            checkBoxSelectAll.Visible = false;
+            pictureBoxBin.Visible = false;
+        }
+
+        private void ShowOpenedFilesFunctions()
+        {
+            checkBoxSelectAll.Visible = true;
+            pictureBoxBin.Visible = true;
+        }
+
         private void HideSubMenuAtStart()
         {
             panelPlaylistsSubMenu.Visible = false;
@@ -106,10 +120,11 @@ namespace MusicPlayer
         }
         public void OpenPlaylistFromReceivingEvent(Playlist playlist)
         {
+            ShowOpenedFilesFunctions();
             currentOpenedPlaylist = playlist;
             OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), null);
         }
-        public delegate void DelegateOpenChildForm(Form childForm, object btnSender);
+
         private void OpenChildForm(Form childForm, object btnSender)
         {
             _activeForm?.Close();
@@ -143,6 +158,7 @@ namespace MusicPlayer
 
         private void BtnOpenedMusic_Click(object sender, EventArgs e)
         {
+            ShowOpenedFilesFunctions();
             OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), sender);
         }
 
@@ -205,7 +221,8 @@ namespace MusicPlayer
                     MessageBox.Show("Error: Could not read file from disc. Error message: " + ex.Message);
                 }
             }   
-            OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), sender);         
+            pictureBoxBin.Visible = true;
+            OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), sender);
         }
 
 
@@ -221,13 +238,14 @@ namespace MusicPlayer
                     foreach (var file in files)
                         currentOpenedPlaylist.musicList.Add(new MusicFile(new System.IO.FileInfo(file).ToString()));
                     checkBoxSelectAll.Visible = true;
+                    pictureBoxBin.Visible = true;
                     OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), sender);
                 }
             }
         }
         #endregion
         #region Playlists
-        private void btnCreatePlaylist_Click(object sender, EventArgs e)
+        private void BtnCreatePlaylist_Click(object sender, EventArgs e)
         {
             using (var form = new FormCreatePlaylist())
             {
@@ -253,7 +271,7 @@ namespace MusicPlayer
 
         }
 
-        private void btnFavouritePlaylists_Click(object sender, EventArgs e)
+        private void BtnFavouritePlaylists_Click(object sender, EventArgs e)
         {
             PlaylistList temp = new PlaylistList();
             foreach(var playlist in playlistList.playlistList)
@@ -264,8 +282,9 @@ namespace MusicPlayer
             OpenChildForm(new FormAllPlaylists(temp), sender);
         }
 
-        private void btnShowAllPlaylists_Click(object sender, EventArgs e)
-        {             
+        private void BtnShowAllPlaylists_Click(object sender, EventArgs e)
+        {
+            HideOpenedFilesFunctions();
             XmlImportExport<PlaylistList> xmlImport = new XmlImportExport<PlaylistList>();
             playlistList = xmlImport.DeserializeXml("playlists.xml", "PlaylistList");
             var form = new Forms.FormAllPlaylists(playlistList);
@@ -285,7 +304,7 @@ namespace MusicPlayer
             Application.DoEvents();
         }
 
-        private void checkBoxSelectAll_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxSelectAll_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxSelectAll.Checked)
                 foreach (var song in currentOpenedPlaylist.musicList)
@@ -293,6 +312,16 @@ namespace MusicPlayer
             else
                 foreach (var song in currentOpenedPlaylist.musicList)
                     song.state = CheckState.Unchecked;
+            OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), sender);
+        }
+
+        private void PictureBoxBin_Click(object sender, EventArgs e)
+        {
+            for(int i = 0; i < currentOpenedPlaylist.musicList.Count; i++)
+            foreach (var song in currentOpenedPlaylist.musicList.ToList())
+                if (song.state == CheckState.Checked)
+                    currentOpenedPlaylist.musicList.Remove(song);
+            OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), sender);
         }
     }
 }

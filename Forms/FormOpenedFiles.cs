@@ -30,22 +30,7 @@ namespace MusicPlayer.Forms
         private void checkedListBoxWithMusicOpened_MouseClick(object sender, MouseEventArgs e)
         {
             for(int i = 0; i < checkedListBoxWithMusicOpened.Items.Count; i++)
-            {
                 playlist.musicList[i].state = checkedListBoxWithMusicOpened.GetItemCheckState(i);
-            }
         }
-        public void test()
-        {
-
-        }
-        /*
-private void checkedListBoxWithMusicOpened_SelectedIndexChanged(object sender, EventArgs e)
-{
-if (player != null)
-player = null;
-player = new Player(checkedListBoxWithMusicOpened);
-}
-*/
-
     }
 }
