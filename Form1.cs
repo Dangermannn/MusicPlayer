@@ -43,12 +43,14 @@ namespace MusicPlayer
         {
             checkBoxSelectAll.Visible = false;
             pictureBoxBin.Visible = false;
+            pictureBoxPlusIcon.Visible = false;
         }
 
         private void ShowOpenedFilesFunctions()
         {
             checkBoxSelectAll.Visible = true;
             pictureBoxBin.Visible = true;
+            pictureBoxPlusIcon.Visible = true;
         }
 
         private void HideSubMenuAtStart()
@@ -145,6 +147,25 @@ namespace MusicPlayer
             XmlImportExport<PlaylistList> xmlImportExport = new XmlImportExport<PlaylistList>();
             xmlImportExport.SerializeToXml(playlistList, "playlists.xml", "PlaylistList");
         }
+
+        private void UpdatePlaylist()
+        {
+            var temp = playlistList.playlistList.Where(x => x.name == currentOpenedPlaylist.name).ToList();
+            if (temp != null && temp.Count > 0)
+                temp[0] = currentOpenedPlaylist;
+            int iterator = 0;
+            for(int i = 0; i < playlistList.playlistList.Count; i++)
+            {
+                if(playlistList.playlistList[i].name == currentOpenedPlaylist.name)
+                {
+                    playlistList.playlistList[i] = currentOpenedPlaylist;
+                    iterator = i;
+                    MessageBox.Show("Updated playlist", "ERROR");
+                    break;
+                }
+            }
+            MessageBox.Show("PL: " + playlistList.playlistList[iterator].musicList.Count.ToString(), "ERROR");
+        }
         private void BtnPlaylists_Click(object sender, EventArgs e)
         {
             ActivateButton(sender);
@@ -239,6 +260,8 @@ namespace MusicPlayer
                         currentOpenedPlaylist.musicList.Add(new MusicFile(new System.IO.FileInfo(file).ToString()));
                     checkBoxSelectAll.Visible = true;
                     pictureBoxBin.Visible = true;
+                    UpdatePlaylist();
+                    SaveToXML();
                     OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), sender);
                 }
             }
@@ -317,11 +340,16 @@ namespace MusicPlayer
 
         private void PictureBoxBin_Click(object sender, EventArgs e)
         {
-            for(int i = 0; i < currentOpenedPlaylist.musicList.Count; i++)
             foreach (var song in currentOpenedPlaylist.musicList.ToList())
                 if (song.state == CheckState.Checked)
                     currentOpenedPlaylist.musicList.Remove(song);
             OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), sender);
+            SaveToXML();
+        }
+
+        private void pictureBoxPlusIcon_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

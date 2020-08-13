@@ -53,6 +53,7 @@
             this.btnMedia = new System.Windows.Forms.Button();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelMainDesktop = new System.Windows.Forms.Panel();
+            this.pictureBoxPlusIcon = new System.Windows.Forms.PictureBox();
             this.pictureBoxBin = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelCard.SuspendLayout();
@@ -63,6 +64,7 @@
             this.panelPlaylistsSubMenu.SuspendLayout();
             this.panelMediaSubMenu.SuspendLayout();
             this.panelMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlusIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -85,6 +87,7 @@
             // panelCard
             // 
             this.panelCard.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.panelCard.Controls.Add(this.pictureBoxPlusIcon);
             this.panelCard.Controls.Add(this.pictureBoxBin);
             this.panelCard.Controls.Add(this.checkBoxSelectAll);
             this.panelCard.Controls.Add(this.lblTitle);
@@ -393,6 +396,17 @@
             this.panelMainDesktop.Size = new System.Drawing.Size(628, 344);
             this.panelMainDesktop.TabIndex = 3;
             // 
+            // pictureBoxPlusIcon
+            // 
+            this.pictureBoxPlusIcon.Image = global::MusicPlayer.Properties.Resources.plus_icon;
+            this.pictureBoxPlusIcon.Location = new System.Drawing.Point(545, 12);
+            this.pictureBoxPlusIcon.Name = "pictureBoxPlusIcon";
+            this.pictureBoxPlusIcon.Size = new System.Drawing.Size(36, 32);
+            this.pictureBoxPlusIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxPlusIcon.TabIndex = 3;
+            this.pictureBoxPlusIcon.TabStop = false;
+            this.pictureBoxPlusIcon.Click += new System.EventHandler(this.pictureBoxPlusIcon_Click);
+            // 
             // pictureBoxBin
             // 
             this.pictureBoxBin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -439,6 +453,7 @@
             this.panelPlaylistsSubMenu.ResumeLayout(false);
             this.panelMediaSubMenu.ResumeLayout(false);
             this.panelMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlusIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -472,6 +487,7 @@
         private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.CheckBox checkBoxSelectAll;
         private System.Windows.Forms.PictureBox pictureBoxBin;
+        private System.Windows.Forms.PictureBox pictureBoxPlusIcon;
     }
 }
 
