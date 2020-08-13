@@ -69,7 +69,8 @@ namespace MusicPlayer.Forms
             titleLabel.Text = text;
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(10, 10);
-            
+            titleLabel.MouseDoubleClick += new MouseEventHandler(this.ChangePlaylistName);
+
             trackStringLabel.Text = "Tracks: ";
             trackStringLabel.ForeColor = Color.White;
             trackStringLabel.Location = new Point(10, 80);
@@ -97,15 +98,40 @@ namespace MusicPlayer.Forms
             panel.Click += new EventHandler(this.OpenPlaylist_Click);
         }
 
-        private void OpenChildForm(Form childForm, object btnSender)
+        private void ChangePlaylistName(object sender, EventArgs e)
         {
-            childForm.TopLevel = false;
-            childForm.FormBorderStyle = FormBorderStyle.None;
-            childForm.Dock = DockStyle.Fill;
-            childForm.BringToFront();
-            childForm.Show();
+            using (var form = new FormCreatePlaylist())
+            {
+                Label l = (Label)sender;
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    if (string.IsNullOrWhiteSpace(form.playlistName))
+                        return;
+                    var isItem = playlistList.playlistList.Where(x => x.name == form.playlistName).ToList();
+                    for(int i = 0; i < playlistList.playlistList.Count; i++)
+                    {
+                        if(playlistList.playlistList[i].name == form.playlistName)
+                        {
+                            MessageBox.Show("There's a playlist with the same name. Try other name", "Error", MessageBoxButtons.OK);
+                            return;
+                        }
+                    }
+                    for(int i = 0; i < playlistList.playlistList.Count; i++)
+                    {
+                        if(playlistList.playlistList[i].name == l.Text)
+                        {
+                            l.Text = form.playlistName;
+                            playlistList.playlistList[i].name = form.playlistName;
+                        }
+                    }
+                    //Playlist p = new Playlist(form.playlistName);
+                    //playlistList.playlistList.Add(p);
+                   // var formAllPlaylists = new FormAllPlaylists(playlistList);
+                    SaveToXML();
+                }
+            }
         }
-
         private void ChangeFavourite_Click(object sender, EventArgs e)
         {
             PictureBox pb = (PictureBox)sender;
@@ -131,10 +157,7 @@ namespace MusicPlayer.Forms
             Panel p = (Panel)sender;
             var playlist = playlistList.playlistList.Where(x => x.name == p.Name).ToList();
             if (playlist?.Count > 0)
-            {
                 playlistToOpen = playlist[0];
-                MessageBox.Show("Added playlist" + playlist[0].GetType(), "Error");
-            }
             else
                 playlistToOpen = new Playlist();
 
