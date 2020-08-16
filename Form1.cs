@@ -43,14 +43,12 @@ namespace MusicPlayer
         {
             checkBoxSelectAll.Visible = false;
             pictureBoxBin.Visible = false;
-            pictureBoxPlusIcon.Visible = false;
         }
 
         private void ShowOpenedFilesFunctions()
         {
             checkBoxSelectAll.Visible = true;
             pictureBoxBin.Visible = true;
-            pictureBoxPlusIcon.Visible = true;
         }
 
         private void HideSubMenuAtStart()
@@ -127,6 +125,11 @@ namespace MusicPlayer
             OpenChildForm(new Forms.FormOpenedFiles(currentOpenedPlaylist), null);
         }
 
+        public void ChangeTitleLabelFromReceivingEvent(string name)
+        {
+            labelCurrentPlayingTitle.Text = name;
+        }
+
         private void OpenChildForm(Form childForm, object btnSender)
         {
             _activeForm?.Close();
@@ -177,17 +180,34 @@ namespace MusicPlayer
         }
 
         #region Lower panel to play/pause/move to next one/before one music
-        private void BtnPlay_Click(object sender, EventArgs e)
+        private async void BtnPlay_Click(object sender, EventArgs e)
         {
-            if (player == null)
+            await Task.Run(
+                () =>
+                {
+                    if (player == null)
+                    {
+                        if(currentOpenedPlaylist != null)
+                        {
+                            player = new Player(currentOpenedPlaylist);
+                            player.PlayPlaylist();
+                        }
+                        else
+                            MessageBox.Show("There is no playlist opened", "Error", MessageBoxButtons.OK);
+                    }
+                    else
+                        player.ResumePlaylist();
+                    //player.trackChanged += text => { labelCurrentPlayingTitle.Text = text; MessageBox.Show("UP"); };
+                    player.ChangeTitle();
+                });
+            if(player != null)
             {
-                player = new Player(currentOpenedPlaylist);
-                player.PlayPlaylist();
+                //MessageBox.Show(player.CurrentPlaying.ToString());
+                btnPlay.Visible = false;
+                btnPause.Visible = true;
             }
-            else
-                player.ResumePlaylist();
-            btnPlay.Visible = false;
-            btnPause.Visible = true;
+            //labelCurrentPlayingTitle.Text = "rsfsdga";
+
         }
 
         private void BtnPlayNextOne_Click(object sender, EventArgs e)

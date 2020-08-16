@@ -53,9 +53,9 @@
             this.btnMedia = new System.Windows.Forms.Button();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelMainDesktop = new System.Windows.Forms.Panel();
-            this.pictureBoxPlusIcon = new System.Windows.Forms.PictureBox();
-            this.pictureBoxBin = new System.Windows.Forms.PictureBox();
+            this.labelCurrentPlayingTitle = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBoxBin = new System.Windows.Forms.PictureBox();
             this.panelCard.SuspendLayout();
             this.panelCurrentPlaying.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMusicTimer)).BeginInit();
@@ -64,9 +64,8 @@
             this.panelPlaylistsSubMenu.SuspendLayout();
             this.panelMediaSubMenu.SuspendLayout();
             this.panelMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlusIcon)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBin)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAbout
@@ -87,7 +86,6 @@
             // panelCard
             // 
             this.panelCard.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.panelCard.Controls.Add(this.pictureBoxPlusIcon);
             this.panelCard.Controls.Add(this.pictureBoxBin);
             this.panelCard.Controls.Add(this.checkBoxSelectAll);
             this.panelCard.Controls.Add(this.lblTitle);
@@ -125,6 +123,7 @@
             // panelCurrentPlaying
             // 
             this.panelCurrentPlaying.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(21)))), ((int)(((byte)(32)))));
+            this.panelCurrentPlaying.Controls.Add(this.labelCurrentPlayingTitle);
             this.panelCurrentPlaying.Controls.Add(this.btnPause);
             this.panelCurrentPlaying.Controls.Add(this.btnPlayNextOne);
             this.panelCurrentPlaying.Controls.Add(this.playLastPlayed);
@@ -396,28 +395,16 @@
             this.panelMainDesktop.Size = new System.Drawing.Size(628, 344);
             this.panelMainDesktop.TabIndex = 3;
             // 
-            // pictureBoxPlusIcon
+            // labelCurrentPlayingTitle
             // 
-            this.pictureBoxPlusIcon.Image = global::MusicPlayer.Properties.Resources.plus_icon;
-            this.pictureBoxPlusIcon.Location = new System.Drawing.Point(545, 12);
-            this.pictureBoxPlusIcon.Name = "pictureBoxPlusIcon";
-            this.pictureBoxPlusIcon.Size = new System.Drawing.Size(36, 32);
-            this.pictureBoxPlusIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxPlusIcon.TabIndex = 3;
-            this.pictureBoxPlusIcon.TabStop = false;
-            this.pictureBoxPlusIcon.Click += new System.EventHandler(this.pictureBoxPlusIcon_Click);
-            // 
-            // pictureBoxBin
-            // 
-            this.pictureBoxBin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxBin.Image = global::MusicPlayer.Properties.Resources.bin_img;
-            this.pictureBoxBin.Location = new System.Drawing.Point(587, 13);
-            this.pictureBoxBin.Name = "pictureBoxBin";
-            this.pictureBoxBin.Size = new System.Drawing.Size(29, 31);
-            this.pictureBoxBin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxBin.TabIndex = 2;
-            this.pictureBoxBin.TabStop = false;
-            this.pictureBoxBin.Click += new System.EventHandler(this.PictureBoxBin_Click);
+            this.labelCurrentPlayingTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelCurrentPlayingTitle.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.labelCurrentPlayingTitle.Location = new System.Drawing.Point(3, 3);
+            this.labelCurrentPlayingTitle.Name = "labelCurrentPlayingTitle";
+            this.labelCurrentPlayingTitle.Padding = new System.Windows.Forms.Padding(5);
+            this.labelCurrentPlayingTitle.Size = new System.Drawing.Size(625, 23);
+            this.labelCurrentPlayingTitle.TabIndex = 5;
+            this.labelCurrentPlayingTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox1
             // 
@@ -430,6 +417,18 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            // 
+            // pictureBoxBin
+            // 
+            this.pictureBoxBin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxBin.Image = global::MusicPlayer.Properties.Resources.bin_img;
+            this.pictureBoxBin.Location = new System.Drawing.Point(587, 13);
+            this.pictureBoxBin.Name = "pictureBoxBin";
+            this.pictureBoxBin.Size = new System.Drawing.Size(29, 31);
+            this.pictureBoxBin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxBin.TabIndex = 2;
+            this.pictureBoxBin.TabStop = false;
+            this.pictureBoxBin.Click += new System.EventHandler(this.PictureBoxBin_Click);
             // 
             // Form1
             // 
@@ -453,9 +452,8 @@
             this.panelPlaylistsSubMenu.ResumeLayout(false);
             this.panelMediaSubMenu.ResumeLayout(false);
             this.panelMenu.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlusIcon)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBin)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -486,8 +484,8 @@
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.CheckBox checkBoxSelectAll;
+        private System.Windows.Forms.Label labelCurrentPlayingTitle;
         private System.Windows.Forms.PictureBox pictureBoxBin;
-        private System.Windows.Forms.PictureBox pictureBoxPlusIcon;
     }
 }
 

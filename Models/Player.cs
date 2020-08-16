@@ -12,9 +12,27 @@ namespace MusicPlayer
 {
     public class Player
     {
+        public event EventHandler trackChanged;
         private Playlist _playlist;
         private static IWavePlayer _player = new WaveOutEvent();
         private string _currentPlaying;
+        public string CurrentPlaying
+        {
+            get
+            {
+                return _currentPlaying;
+            }
+            set
+            {
+                ChangeTitle();
+                _currentPlaying = value;
+            }
+        }
+        public virtual void ChangeTitle()
+        {
+            if(trackChanged != null)
+                trackChanged(this, EventArgs.Empty);
+        }
         private int _currentPlayingIndex;
 
 
@@ -28,16 +46,10 @@ namespace MusicPlayer
             _playlist = new Playlist();
         }
 
-        private void Update()
-        {
-            
-        }
-
         public void PlayBeforeCurrentPlaying()
         {
             if(_player != null)
             {
-                this.Update();
                 if (_playlist == null)
                     return;
 
